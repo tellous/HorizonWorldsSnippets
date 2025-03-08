@@ -8,6 +8,6 @@ Go read the [manual](https://communityforums.atmeta.com/t5/Community-Resources/N
 
 ### More Resources:
 - Join the [Meta Horizon Discord](https://discord.gg/3sWk8BD9FZ)
-- Check out the [Meta Creator Forums]([https://discord.com/invite/Kw4JbyNb9A](https://communityforums.atmeta.com/t5/Creator-Forum/ct-p/Meta_Horizon_Creator_Forums)
+- Check out the [Meta Creator Forums](https://communityforums.atmeta.com/t5/Creator-Forum/ct-p/Meta_Horizon_Creator_Forums)
 
 Also, join the [VRinReview Discord](https://discord.com/invite/Kw4JbyNb9A). Plz and thank you!
