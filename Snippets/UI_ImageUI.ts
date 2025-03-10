@@ -1,4 +1,4 @@
-import { TextureAsset } from 'horizon/core';
+import * as hz from 'horizon/core';
 import * as hzui from 'horizon/ui';
 
 export class ImageUI extends hzui.UIComponent<typeof ImageUI> {
@@ -8,7 +8,7 @@ export class ImageUI extends hzui.UIComponent<typeof ImageUI> {
         return hzui.View({
             children: [
                 hzui.Image({
-                    source: hzui.ImageSource.fromTextureAsset(new TextureAsset(BigInt(this.textureId)))
+                    source: hzui.ImageSource.fromTextureAsset(new hz.TextureAsset(BigInt(this.textureId)))
                 })
             ],
             style: {
