@@ -4,14 +4,6 @@ class SimpleTimer extends hz.Component<typeof SimpleTimer> {
     private timeRemaining = 0;
 
     start() {
-        this.connectCodeBlockEvent(
-            this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
-            this.startTimer.bind(this)
-        );
-    }
-
-    startTimer() {
         // Start a countdown timer for 10 seconds
         this.timeRemaining = 10;
 
