@@ -19,7 +19,7 @@ class SaveToPpv extends hz.Component<typeof SaveToPpv> {
             this.ppvName
         );
 
-        //Add 1 to the score
+        //Add 1 to the count
         count++;
 
         // Save the count
