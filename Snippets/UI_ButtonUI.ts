@@ -4,6 +4,8 @@ import * as hz from 'horizon/core';
 export class ButtonUI extends hzui.UIComponent<typeof ButtonUI> {
     private hoverColor = hz.Color.white;
 
+    private pressedColor = new hz.Color(0, 1, 1);
+
     private defaultColor = hz.Color.green;
 
     private buttonColorBinding = new hzui.Binding(this.defaultColor);
@@ -18,6 +20,8 @@ export class ButtonUI extends hzui.UIComponent<typeof ButtonUI> {
                     textAlignVertical: 'center'
                 }
             }),
+            onPress: () => { this.buttonColorBinding.set(this.pressedColor) },
+            onRelease: () => { this.buttonColorBinding.set(this.defaultColor) },
             onClick: (player: hz.Player) => { console.log(`Button clicked by ${player.name.get()}`); },
             onEnter: () => { this.buttonColorBinding.set(this.hoverColor) },
             onExit: () => { this.buttonColorBinding.set(this.defaultColor) },

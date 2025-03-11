@@ -1,5 +1,4 @@
 // FetchAsData
-// XsPlayerInventory
 // Projectile Launcher
 // SpringToPosition
 // MoveInAStraightLine
