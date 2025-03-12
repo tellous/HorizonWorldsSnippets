@@ -1,4 +1,3 @@
-// Projectile Launcher
 // SpringToPosition
 // MoveInAStraightLine
 // MoveWithEasing
