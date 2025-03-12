@@ -1,4 +1,3 @@
-// FetchAsData
 // Projectile Launcher
 // SpringToPosition
 // MoveInAStraightLine
