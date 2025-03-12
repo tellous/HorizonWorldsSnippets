@@ -1,6 +1,6 @@
 import * as hz from 'horizon/core';
 
-class ServerEntity extends hz.Component<typeof ServerEntity> {
+class OwnershipManagement extends hz.Component<typeof OwnershipManagement> {
     static propsDefinition = {
         localEntity: { type: hz.PropTypes.Entity },
     };
@@ -11,6 +11,8 @@ class ServerEntity extends hz.Component<typeof ServerEntity> {
 
     start() {
         this.serverPlayer = this.world.getServerPlayer();
+
+        this.localEntity = this.props.localEntity?.as(hz.Entity);
 
         this.connectCodeBlockEvent(
             this.entity,
@@ -35,4 +37,4 @@ class ServerEntity extends hz.Component<typeof ServerEntity> {
         this.localEntity?.owner.set(this.serverPlayer!);
     }
 }
-hz.Component.register(ServerEntity);
+hz.Component.register(OwnershipManagement);
