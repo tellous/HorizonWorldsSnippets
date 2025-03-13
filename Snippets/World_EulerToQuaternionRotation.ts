@@ -1,6 +1,6 @@
 import * as hz from 'horizon/core';
 
-class QuaternionRotation extends hz.Component<typeof QuaternionRotation> {
+class EulerToQuaternionRotation extends hz.Component<typeof EulerToQuaternionRotation> {
     static propsDefinition = {
         entity: { type: hz.PropTypes.Entity }
     };
@@ -26,4 +26,4 @@ class QuaternionRotation extends hz.Component<typeof QuaternionRotation> {
     }
 }
 
-hz.Component.register(QuaternionRotation);
+hz.Component.register(EulerToQuaternionRotation);
