@@ -1,6 +1,6 @@
 import * as hz from 'horizon/core';
 
-class MoveOneMeterForward extends hz.Component<typeof MoveOneMeterForward> {
+class MoveForwardOneMeter extends hz.Component<typeof MoveForwardOneMeter> {
     start() {
         const initialPosition = this.entity.position.get();
         const forwardDirection = this.entity.forward.get();
@@ -12,4 +12,4 @@ class MoveOneMeterForward extends hz.Component<typeof MoveOneMeterForward> {
     }
 }
 
-hz.Component.register(MoveOneMeterForward);
+hz.Component.register(MoveForwardOneMeter);
