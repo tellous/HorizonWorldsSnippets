@@ -1,6 +1,6 @@
 import * as hzui from 'horizon/ui';
 
-class SampleComponent extends hzui.UIComponent<typeof SampleComponent> {
+class UIServerComponent extends hzui.UIComponent<typeof UIServerComponent> {
     initializeUI() {
         return hzui.View({
             style: {
@@ -9,4 +9,4 @@ class SampleComponent extends hzui.UIComponent<typeof SampleComponent> {
         })
     }
 }
-hzui.UIComponent.register(SampleComponent);
+hzui.UIComponent.register(UIServerComponent);
