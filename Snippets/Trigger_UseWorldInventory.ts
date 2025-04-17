@@ -1,6 +1,6 @@
 import * as hz from 'horizon/core';
 
-class WorldInventory extends hz.Component<typeof WorldInventory> {
+class UseWorldInventory extends hz.Component<typeof UseWorldInventory> {
     static propsDefinition= {
         earnTrigger: { type: hz.PropTypes.Entity },
         consumeTrigger: { type: hz.PropTypes.Entity }
@@ -86,4 +86,4 @@ class WorldInventory extends hz.Component<typeof WorldInventory> {
     }
 
 }
-hz.Component.register(WorldInventory);
+hz.Component.register(UseWorldInventory);
