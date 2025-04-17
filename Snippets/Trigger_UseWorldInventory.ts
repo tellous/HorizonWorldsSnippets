@@ -1,7 +1,7 @@
 import * as hz from 'horizon/core';
 
-class UseWorldInventory extends hz.Component<typeof UseWorldInventory> {
-    static propsDefinition = {
+class WorldInventory extends hz.Component<typeof WorldInventory> {
+    static propsDefinition= {
         earnTrigger: { type: hz.PropTypes.Entity },
         consumeTrigger: { type: hz.PropTypes.Entity }
     };
@@ -40,13 +40,14 @@ class UseWorldInventory extends hz.Component<typeof UseWorldInventory> {
         // Count how many items the player has in their inventory
         hz.WorldInventory.getPlayerEntitlementQuantity(player, this.iwpId)
             .then((count) => {
+                console.log(`Player had ${count} items in their inventory.`);
+                
                 // As an example, we will max out the player's inventory to 5 items
                 if (count <= 5) {
                     // Add the item to the player's inventory
                     hz.WorldInventory.grantItemToPlayer(player, this.iwpId);
+                    console.log('Item granted to player inventory.');
                 }
-
-                console.log(`Player has ${count} items in their inventory.`);
             })
             .catch((error) => {
                 console.error('Error fetching player entitlement quantity:', error);
@@ -85,4 +86,4 @@ class UseWorldInventory extends hz.Component<typeof UseWorldInventory> {
     }
 
 }
-hz.Component.register(UseWorldInventory);
+hz.Component.register(WorldInventory);
