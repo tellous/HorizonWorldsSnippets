@@ -1,27 +1,31 @@
-import * as hz from 'horizon/core';
+import { Component, PhysicalEntity, CodeBlockEvents } from 'horizon/core';
 
-class PhysicsLock extends hz.Component<typeof PhysicsLock> {
-    private physicsEntity?: hz.PhysicalEntity;
+class PhysicsLock extends Component<typeof PhysicsLock> {
+    private physicsEntity?: PhysicalEntity;
 
-    start() {
-        this.physicsEntity = this.entity.as(hz.PhysicalEntity);
+    preStart() {
+        this.physicsEntity = this.entity.as(PhysicalEntity);
         
         // Lock the physics entity to prevent it from moving
         this.physicsEntity.locked.set(true);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
         
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
     }
     
+    start() {
+        // Intentionally left blank
+    }
+
     onGrab() {
         console.log('Locked entity grabbed');
     }
@@ -31,4 +35,4 @@ class PhysicsLock extends hz.Component<typeof PhysicsLock> {
     }
 }
 
-hz.Component.register(PhysicsLock);
+Component.register(PhysicsLock);

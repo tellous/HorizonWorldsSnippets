@@ -1,19 +1,23 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents } from 'horizon/core';
 
 enum GameState {
     Active,
     Inactive
 }
 
-class StateManager extends hz.Component<typeof StateManager> {
+class StateManager extends Component<typeof StateManager> {
     private state = GameState.Inactive;
     
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnterTrigger.bind(this)
         );
+    }
+
+    start() {
+        // Intentionally left blank
     }
     
     onPlayerEnterTrigger() {
@@ -27,4 +31,4 @@ class StateManager extends hz.Component<typeof StateManager> {
     }
 }
 
-hz.Component.register(StateManager);
+Component.register(StateManager);

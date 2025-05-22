@@ -1,22 +1,24 @@
-import * as hzui from 'horizon/ui';
+import { UIComponent, View } from 'horizon/ui';
 
-export class BackgroundImageUI extends hzui.UIComponent<typeof BackgroundImageUI> {
-    initializeUI() {
-        return hzui.View({
+export class BackgroundImageUI extends UIComponent<typeof BackgroundImageUI> {
+    preStart() {}
+    start() {}
+    public initializeUI() {
+        return View({
             children: [
-               hzui.View({
+                View({
                     style: {
                         flex: 1,
                         backgroundColor: "red",
                     }
                 }),
-                hzui.View({
+                View({
                     style: {
                         flex: 1,
                         backgroundColor: "green",
                     }
                 }),
-                hzui.View({
+                View({
                     style: {
                         flex: 1,
                         backgroundColor: "blue",
@@ -29,4 +31,4 @@ export class BackgroundImageUI extends hzui.UIComponent<typeof BackgroundImageUI
         });
     }
 }
-hzui.UIComponent.register(BackgroundImageUI);
+UIComponent.register(BackgroundImageUI);

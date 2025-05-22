@@ -1,40 +1,28 @@
-import * as hz from 'horizon/core';
+import { Component, World, Vec3 } from 'horizon/core';
 
-class MoveInAStraightLine extends hz.Component<typeof MoveInAStraightLine> {
+class MoveInAStraightLine extends Component<typeof MoveInAStraightLine> {
     private timeElapsed: number = 0;
-
     private maxTime: number = 5; // Time in seconds to move
-    
-    private startPosition= hz.Vec3.zero;
+    private startPosition = Vec3.zero;
+    private endPosition = Vec3.zero;
 
-    private endPosition = hz.Vec3.zero;
-
-    start() {
+    preStart() {
         this.startPosition = this.entity.position.get();
-
-        this.endPosition = this.startPosition.add(hz.Vec3.forward.mul(10)); // Move 10 meters forward
-
-        this.connectLocalBroadcastEvent(hz.World.onUpdate, this.update.bind(this));
+        this.endPosition = this.startPosition.add(Vec3.forward.mul(10)); // Move 10 meters forward
+        this.connectLocalBroadcastEvent(World.onUpdate, this.update.bind(this));
     }
+
+    start() {}
 
     private update(data: { deltaTime: number }) {
         this.timeElapsed = Math.min(this.timeElapsed + data.deltaTime, this.maxTime);
-
         const alpha = this.timeElapsed / this.maxTime;
-
-        // Interpolate between start and end position
-        const newPosition = hz.Vec3.lerp(this.startPosition, this.endPosition, alpha);
-
-        // Set the new position
+        const newPosition = Vec3.lerp(this.startPosition, this.endPosition, alpha);
         this.entity.position.set(newPosition);
-
         if (this.timeElapsed >= this.maxTime) {
             console.log('Movement completed');
-
-            // Optionally, you can reset the timeElapsed to start over
             this.timeElapsed = 0;
         }
     }
 }
-
-hz.Component.register(MoveInAStraightLine);
+Component.register(MoveInAStraightLine);

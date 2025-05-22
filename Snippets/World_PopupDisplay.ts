@@ -1,17 +1,19 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
-class PopupDisplay extends hz.Component<typeof PopupDisplay> {
-    start() {
+class PopupDisplay extends Component<typeof PopupDisplay> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterWorld.bind(this)
         );
     }
 
-    onPlayerEnterWorld(player: hz.Player) {
+    start() {}
+
+    onPlayerEnterWorld(player: Player) {
         this.world.ui.showPopupForPlayer(player, 'Welcome!', 5);
     }
 }
 
-hz.Component.register(PopupDisplay);
+Component.register(PopupDisplay);

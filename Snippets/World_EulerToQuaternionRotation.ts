@@ -1,29 +1,28 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, CodeBlockEvents, Vec3, Quaternion } from 'horizon/core';
 
-class EulerToQuaternionRotation extends hz.Component<typeof EulerToQuaternionRotation> {
+class EulerToQuaternionRotation extends Component<typeof EulerToQuaternionRotation> {
     static propsDefinition = {
-        entity: { type: hz.PropTypes.Entity }
+        entity: { type: PropTypes.Entity }
     };
 
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterWorld.bind(this)
         );
     }
 
+    start() {}
+
     onPlayerEnterWorld() {
         // Create quaternion
-        const yRotation = hz.Quaternion.fromEuler(new hz.Vec3(0, 90, 0)); // 90 degrees around Y axis
-        
+        const yRotation = Quaternion.fromEuler(new Vec3(0, 90, 0)); // 90 degrees around Y axis
         const currentRotation = this.entity.rotation.get();
-        
         const newRotation = yRotation.mul(currentRotation);
-        
         // Rotate 90 degrees around Y axis
         this.entity.rotation.set(newRotation);
     }
 }
 
-hz.Component.register(EulerToQuaternionRotation);
+Component.register(EulerToQuaternionRotation);

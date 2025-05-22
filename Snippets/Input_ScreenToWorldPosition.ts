@@ -1,25 +1,25 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, RaycastGizmo, PlayerControls, RaycastTargetType, Player, InteractionInfo } from 'horizon/core';
 
 // See World_OwnershipManagement to manage ownership 
 // This script must be set to "Local" execution mode in the editor.
-class ScreenToWorldPosition extends hz.Component<typeof ScreenToWorldPosition> {
+class ScreenToWorldPosition extends Component<typeof ScreenToWorldPosition> {
     static propsDefinition = {
-        ray: { type: hz.PropTypes.Entity },
+        ray: { type: PropTypes.Entity },
     };
 
-    private owner?: hz.Player;
+    private owner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
     //Be sure to add an object tag to the raycast gizmo properties in the editor
-    private ray?: hz.RaycastGizmo;
+    private ray?: RaycastGizmo;
 
-    start() {
+    preStart() {
         this.owner = this.entity.owner.get();
 
         this.serverPlayer = this.world.getServerPlayer();
 
-        this.ray = this.props.ray?.as(hz.RaycastGizmo);
+        this.ray = this.props.ray?.as(RaycastGizmo);
         this.ray?.owner.set(this.owner);
 
         if (this.owner === this.serverPlayer) {
@@ -30,12 +30,14 @@ class ScreenToWorldPosition extends hz.Component<typeof ScreenToWorldPosition> {
         this.owner.enterFocusedInteractionMode();
 
         this.connectLocalBroadcastEvent(
-            hz.PlayerControls.onFocusedInteractionInputStarted,
+            PlayerControls.onFocusedInteractionInputStarted,
             this.onInteraction.bind(this)
         );
     }
 
-    private onInteraction(data: { interactionInfo: hz.InteractionInfo[] }) {
+    start() {}
+
+    private onInteraction(data: { interactionInfo: InteractionInfo[] }) {
         const firstInteraction = data.interactionInfo[0];
 
         if (!firstInteraction) {
@@ -49,10 +51,10 @@ class ScreenToWorldPosition extends hz.Component<typeof ScreenToWorldPosition> {
         const ray = this.ray?.raycast(origin, direction);
 
         if(ray){
-            if (ray.targetType === hz.RaycastTargetType.Entity) {
+            if (ray.targetType === RaycastTargetType.Entity) {
                 // The ray hit an entity
                 console.log('Hit entity:', ray.target.name.get());
-            } else if (ray.targetType === hz.RaycastTargetType.Player) {
+            } else if (ray.targetType === RaycastTargetType.Player) {
                 // The ray hit a player
                 console.log('Hit player:', ray.target.name.get());
             } else{
@@ -65,4 +67,4 @@ class ScreenToWorldPosition extends hz.Component<typeof ScreenToWorldPosition> {
     }
 }
 
-hz.Component.register(ScreenToWorldPosition);
+Component.register(ScreenToWorldPosition);

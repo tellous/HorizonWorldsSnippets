@@ -1,23 +1,25 @@
-import * as hz from 'horizon/core';
+import { Component, AttachableEntity, Player, CodeBlockEvents, AttachablePlayerAnchor } from 'horizon/core';
 
-class HolsterItem extends hz.Component<typeof HolsterItem> {
-    private attachable?: hz.AttachableEntity;
+class HolsterItem extends Component<typeof HolsterItem> {
+    private attachable?: AttachableEntity;
 
-    start() {
-        this.attachable = this.entity.as(hz.AttachableEntity);
+    preStart() {
+        this.attachable = this.entity.as(AttachableEntity);
         
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
     }
 
-    private onRelease(player: hz.Player) {
-        const anchor = hz.AttachablePlayerAnchor.Head;
+    private onRelease(player: Player) {
+        const anchor = AttachablePlayerAnchor.Head;
         
         this.attachable?.attachToPlayer(player, anchor);
     }
+
+    start() {}
 }
 
-hz.Component.register(HolsterItem);
+Component.register(HolsterItem);

@@ -1,12 +1,16 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents } from 'horizon/core';
 
-class PrintRandomNumber extends hz.Component<typeof PrintRandomNumber> {
-    start() {
+class PrintRandomNumber extends Component<typeof PrintRandomNumber> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity, 
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
+    }
+
+    start() {
+        // Intentionally left blank
     }
 
     onGrab() {
@@ -15,4 +19,4 @@ class PrintRandomNumber extends hz.Component<typeof PrintRandomNumber> {
     }
 }
 
-hz.Component.register(PrintRandomNumber);
+Component.register(PrintRandomNumber);

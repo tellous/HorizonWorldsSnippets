@@ -1,24 +1,28 @@
-import * as hz from 'horizon/core';
+import { Component, Vec3, CodeBlockEvents, PhysicsForceMode, Entity, PhysicalEntity } from 'horizon/core';
 
-class ApplyForce extends hz.Component<typeof ApplyForce> {
-    private forceStrength = hz.Vec3.zero;
+class ApplyForce extends Component<typeof ApplyForce> {
+    private forceStrength = Vec3.zero;
 
-    start() {
+    preStart() {
         // Set the force strength to apply
-        this.forceStrength = hz.Vec3.up.mul(100);
+        this.forceStrength = Vec3.up.mul(100);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnEntityEnterTrigger,
+            CodeBlockEvents.OnEntityEnterTrigger,
             this.onEntityEnterTrigger.bind(this)
         );
     }
 
-    onEntityEnterTrigger(entity: hz.Entity) {
-        const physicalEntity = entity.as(hz.PhysicalEntity);
+    start() {
+        // Intentionally left blank
+    }
+
+    onEntityEnterTrigger(entity: Entity) {
+        const physicalEntity = entity.as(PhysicalEntity);
                 
-        physicalEntity.applyForce(this.forceStrength, hz.PhysicsForceMode.Force);
+        physicalEntity.applyForce(this.forceStrength, PhysicsForceMode.Force);
     }
 }
 
-hz.Component.register(ApplyForce);
+Component.register(ApplyForce);

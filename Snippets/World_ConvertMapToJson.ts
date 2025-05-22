@@ -1,9 +1,9 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes } from 'horizon/core';
 
-class ConvertMapToJson extends hz.Component<typeof ConvertMapToJson> {
+class ConvertMapToJson extends Component<typeof ConvertMapToJson> {
   private map = new Map<string, string>();
 
-  start() {
+  preStart() {
     // Initialize the map with some values
     this.map.set("id", (1001).toString());
     this.map.set("name", "Test");
@@ -17,6 +17,8 @@ class ConvertMapToJson extends hz.Component<typeof ConvertMapToJson> {
     //You can copy the output in the console and save it to a json file on your computer
     //Just open notepad, paste the output and save it as a .json file
   }
+
+  start() {}
 }
 
-hz.Component.register(ConvertMapToJson);
+Component.register(ConvertMapToJson);

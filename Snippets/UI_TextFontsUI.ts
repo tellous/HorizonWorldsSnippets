@@ -1,47 +1,47 @@
-import * as hzui from 'horizon/ui';
+import { UIComponent, Text, View } from "horizon/ui";
 
-export class TextFontsUI extends hzui.UIComponent<typeof TextFontsUI> {
+export class TextFontsUI extends UIComponent<typeof TextFontsUI> {
     //Available fonts: 'Anton' | 'Bangers' | 'Kallisto' | 'Optimistic' | 'Oswald' | 'Roboto' | 'Roboto-Mono'
     initializeUI() {
-        return hzui.View({
+        return View({
             children: [
-                hzui.Text({
+                Text({
                     text: "Hello",
                     style: {
                         fontFamily: 'Anton',
                     }
                 }),
-                hzui.Text({
+                Text({
                     text: "Hello",
                     style: {
                         fontFamily: 'Bangers',
                     }
                 }),
-                hzui.Text({
+                Text({
                     text: "Hello",
                     style: {
                         fontFamily: 'Kallisto',
                     }
                 }),
-                hzui.Text({
+                Text({
                     text: "Hello",
                     style: {
                         fontFamily: 'Optimistic',
                     }
                 }),
-                hzui.Text({
+                Text({
                     text: "Hello",
                     style: {
                         fontFamily: 'Oswald',
                     }
                 }),
-                hzui.Text({
+                Text({
                     text: "Hello",
                     style: {
                         fontFamily: 'Roboto',
                     }
                 }),
-                hzui.Text({
+                Text({
                     text: "Hello",
                     style: {
                         fontFamily: 'Roboto-Mono',
@@ -51,4 +51,4 @@ export class TextFontsUI extends hzui.UIComponent<typeof TextFontsUI> {
         });
     }
 }
-hzui.UIComponent.register(TextFontsUI);
+UIComponent.register(TextFontsUI);

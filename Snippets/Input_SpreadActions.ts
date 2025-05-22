@@ -1,34 +1,38 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, Vec3, ParticleGizmo, AudioGizmo, CodeBlockEvents, World } from 'horizon/core';
 
-class SpreadActions extends hz.Component<typeof SpreadActions> {
+class SpreadActions extends Component<typeof SpreadActions> {
     static propsDefinition = {
-        particle: { type: hz.PropTypes.Entity },
-        audio: { type: hz.PropTypes.Entity }
+        particle: { type: PropTypes.Entity },
+        audio: { type: PropTypes.Entity }
     };
 
     private actionsQueue: (() => void)[] = [];
 
-    private actionPosition: hz.Vec3 = hz.Vec3.zero;
+    private actionPosition: Vec3 = Vec3.zero;
 
-    private particle?: hz.ParticleGizmo;
+    private particle?: ParticleGizmo;
 
-    private audio?: hz.AudioGizmo;
+    private audio?: AudioGizmo;
 
-    start() {
-        this.particle = this.props.particle?.as(hz.ParticleGizmo);
+    preStart() {
+        this.particle = this.props.particle?.as(ParticleGizmo);
 
-        this.audio = this.props.audio?.as(hz.AudioGizmo);
+        this.audio = this.props.audio?.as(AudioGizmo);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnIndexTriggerDown,
+            CodeBlockEvents.OnIndexTriggerDown,
             this.onTriggerDown.bind(this)
         );
 
         this.connectLocalBroadcastEvent(
-            hz.World.onUpdate,
+            World.onUpdate,
             this.onUpdate.bind(this)
         );
+    }
+
+    start() {
+        // Intentionally left blank
     }
 
     onTriggerDown() {
@@ -65,4 +69,4 @@ class SpreadActions extends hz.Component<typeof SpreadActions> {
     }
 
 }
-hz.Component.register(SpreadActions);
+Component.register(SpreadActions);

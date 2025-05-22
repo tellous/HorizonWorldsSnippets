@@ -1,14 +1,18 @@
-import * as hzui from 'horizon/ui';
-import * as hz from 'horizon/core';
+import { UIComponent, View } from 'horizon/ui';
+import { Color } from 'horizon/core';
 
-export class BorderUI extends hzui.UIComponent<typeof BorderUI> {
-    initializeUI() {
-        return hzui.View({
+export class BorderUI extends UIComponent<typeof BorderUI> {
+    preStart() {}
+
+    start() {}
+
+    public initializeUI() {
+        return View({
             children: [
-                hzui.View({
+                View({
                     style: {
                         borderWidth: 2,
-                        borderColor: hz.Color.black,
+                        borderColor: Color.black,
                         width: 100,
                         height: 100
                     }
@@ -20,4 +24,4 @@ export class BorderUI extends hzui.UIComponent<typeof BorderUI> {
         });
     }
 }
-hzui.UIComponent.register(BorderUI);
+UIComponent.register(BorderUI);

@@ -1,30 +1,31 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, SpawnController, Vec3, Quaternion, Asset, Entity } from 'horizon/core';
 
-class CustomAssetSpawner extends hz.Component<typeof CustomAssetSpawner> {
+class CustomAssetSpawner extends Component<typeof CustomAssetSpawner> {
     static propsDefinition = {
-        myAsset: { type: hz.PropTypes.Asset },
+        myAsset: { type: PropTypes.Asset },
     };
 
-    private spawnController?: hz.SpawnController;
+    private spawnController?: SpawnController;
 
-    start() {
+    preStart() {
         const asset = this.props.myAsset;
-
         if (!asset) {
             console.error('No asset provided for spawning.');
             return;
         }
-
-        this.spawnController = new hz.SpawnController(asset, hz.Vec3.zero, hz.Quaternion.zero, hz.Vec3.one);
-
+        this.spawnController = new SpawnController(asset, Vec3.zero, Quaternion.zero, Vec3.one);
         this.spawnController.spawn()
-            .then((entity) => {
-                console.log('Spawned entity:', entity);
+            .then(() => {
+                // Access spawned entities via this.spawnController.rootEntities.get()
+                const entities = this.spawnController?.rootEntities.get();
+                console.log('Spawned entities:', entities);
             })
-            .catch((error) => {
+            .catch((error: unknown) => {
                 console.error('Error spawning entity:', error);
             });
     }
+
+    start() {}
 }
 
-hz.Component.register(CustomAssetSpawner);
+Component.register(CustomAssetSpawner);

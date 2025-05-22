@@ -1,25 +1,27 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, CodeBlockEvents, Player, SpawnPointGizmo } from 'horizon/core';
 
-class TeleportPlayer extends hz.Component<typeof TeleportPlayer> {
+class TeleportPlayer extends Component<typeof TeleportPlayer> {
     static propsDefinition = {
-        spawnPointGizmo: { type: hz.PropTypes.Entity }
+        spawnPointGizmo: { type: PropTypes.Entity }
     };
 
-    spawnPointGizmo?: hz.SpawnPointGizmo;
+    spawnPointGizmo?: SpawnPointGizmo;
 
-    start() {
-        this.spawnPointGizmo = this.props.spawnPointGizmo?.as(hz.SpawnPointGizmo);
+    preStart() {
+        this.spawnPointGizmo = this.props.spawnPointGizmo?.as(SpawnPointGizmo);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnter.bind(this)
         );
     }
 
-    onPlayerEnter(player: hz.Player) {
+    start() {}
+
+    onPlayerEnter(player: Player) {
         this.spawnPointGizmo?.teleportPlayer(player);
     }
 }
 
-hz.Component.register(TeleportPlayer);
+Component.register(TeleportPlayer);

@@ -1,18 +1,20 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
-class ChangePlayerSpeed extends hz.Component<typeof ChangePlayerSpeed> {
-    start() {
+class ChangePlayerSpeed extends Component<typeof ChangePlayerSpeed> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnterTrigger.bind(this)
         );
     }
 
-    private onPlayerEnterTrigger(player: hz.Player) {
+    start() {}
+
+    private onPlayerEnterTrigger(player: Player) {
         // Change the player's speed
         player.locomotionSpeed.set(10);
     }
 }
 
-hz.Component.register(ChangePlayerSpeed);
+Component.register(ChangePlayerSpeed);

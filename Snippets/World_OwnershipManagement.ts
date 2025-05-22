@@ -1,40 +1,36 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, Entity, Player, CodeBlockEvents } from 'horizon/core';
 
-class OwnershipManagement extends hz.Component<typeof OwnershipManagement> {
+class OwnershipManagement extends Component<typeof OwnershipManagement> {
     static propsDefinition = {
-        localEntity: { type: hz.PropTypes.Entity },
+        localEntity: { type: PropTypes.Entity },
     };
 
-    private localEntity?: hz.Entity;
+    private localEntity?: Entity;
+    private serverPlayer?: Player;
 
-    private serverPlayer?: hz.Player;
-
-    start() {
+    preStart() {
         this.serverPlayer = this.world.getServerPlayer();
-
-        this.localEntity = this.props.localEntity?.as(hz.Entity);
-
+        this.localEntity = this.props.localEntity?.as(Entity);
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterWorld.bind(this)
         );
-
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerExitWorld,
+            CodeBlockEvents.OnPlayerExitWorld,
             this.onPlayerExitWorld.bind(this)
         );
     }
 
-    private onPlayerEnterWorld(player: hz.Player) {
-        // Set the player as the owner of the entity
+    start() {}
+
+    private onPlayerEnterWorld(player: Player) {
         this.localEntity?.owner.set(player);
     }
 
-    private onPlayerExitWorld(player: hz.Player) {
-        // Reset the owner of the entity when the player exits the world
+    private onPlayerExitWorld(player: Player) {
         this.localEntity?.owner.set(this.serverPlayer!);
     }
 }
-hz.Component.register(OwnershipManagement);
+Component.register(OwnershipManagement);

@@ -1,4 +1,4 @@
-import * as hz from 'horizon/core';
+import { Component, Asset } from 'horizon/core';
 
 // This assumes you have a data asset the looks like this
 // { 
@@ -8,19 +8,16 @@ type MyData = {
     message: string;
 }
 
-class FetchAsData extends hz.Component<typeof FetchAsData> {
-    start() {
+class FetchAsData extends Component<typeof FetchAsData> {
+    preStart() {
         const assetId = 0; // Replace with your asset ID
-        const asset = new hz.Asset(BigInt(assetId))
-
+        const asset = new Asset(BigInt(assetId));
         const skipCache = true;
-
         asset.fetchAsData({
             skipCache: skipCache
         })
             .then((data) => {
                 const parsedData = data.asJSON<MyData>();
-
                 if (!parsedData) {
                     console.error('Failed to parse data');
                 } else {
@@ -30,6 +27,8 @@ class FetchAsData extends hz.Component<typeof FetchAsData> {
                 console.error('Error fetching data:', error);
             });
     }
+
+    start() {}
 }
 
-hz.Component.register(FetchAsData);
+Component.register(FetchAsData);

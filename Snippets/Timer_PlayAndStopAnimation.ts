@@ -1,11 +1,11 @@
-import * as hz from 'horizon/core';
+import { Component, AnimatedEntity } from 'horizon/core';
 
-class PlayAndStopAnimation extends hz.Component<typeof PlayAndStopAnimation> {
-    private animatedEntity?: hz.AnimatedEntity; 
+class PlayAndStopAnimation extends Component<typeof PlayAndStopAnimation> {
+    private animatedEntity?: AnimatedEntity; 
 
-    start() {
+    preStart() {
         // Get the AnimatedEntity component from the entity
-        this.animatedEntity = this.entity.as(hz.AnimatedEntity);
+        this.animatedEntity = this.entity.as(AnimatedEntity);
 
         // Play the animation when the component starts
         this.animatedEntity.play();
@@ -15,6 +15,10 @@ class PlayAndStopAnimation extends hz.Component<typeof PlayAndStopAnimation> {
             this.animatedEntity?.stop();
         }, 3000);
     }
+
+    start() {
+        // Intentionally left blank
+    }
 }
 
-hz.Component.register(PlayAndStopAnimation);
+Component.register(PlayAndStopAnimation);

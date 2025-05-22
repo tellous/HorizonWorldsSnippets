@@ -1,11 +1,11 @@
-import * as hzui from 'horizon/ui';
-import * as hz from 'horizon/core';
+import { UIComponent, View } from 'horizon/ui';
+import { Player } from 'horizon/core';
 
-class UILocalComponent extends hzui.UIComponent<typeof UILocalComponent> {
-    owner?: hz.Player;
-    serverPlayer?: hz.Player;
+class UILocalComponent extends UIComponent<typeof UILocalComponent> {
+    owner?: Player;
+    serverPlayer?: Player;
 
-    start() {
+    preStart() {
         this.owner = this.entity.owner.get();
         this.serverPlayer = this.world.getServerPlayer();
         if (this.owner === this.serverPlayer) {
@@ -13,12 +13,14 @@ class UILocalComponent extends hzui.UIComponent<typeof UILocalComponent> {
         }
     }
 
+    start() {}
+
     initializeUI() {
-        return hzui.View({
+        return View({
             style: {
                 flex: 1
             }
         })
     }
 }
-hzui.UIComponent.register(UILocalComponent);
+UIComponent.register(UILocalComponent);

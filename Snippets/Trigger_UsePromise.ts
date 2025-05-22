@@ -1,15 +1,19 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
-class UsePromise extends hz.Component<typeof UsePromise> {
-    start() {
+class UsePromise extends Component<typeof UsePromise> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnter.bind(this)
         );
     }
 
-    onPlayerEnter(player: hz.Player) {
+    start() {
+        // Intentionally left blank
+    }
+
+    onPlayerEnter(player: Player) {
         console.log(`${player.name.get()} entered the trigger`);
 
         this.createPromise()
@@ -37,4 +41,4 @@ class UsePromise extends hz.Component<typeof UsePromise> {
     }
 }
 
-hz.Component.register(UsePromise);
+Component.register(UsePromise);

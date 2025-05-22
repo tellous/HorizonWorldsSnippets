@@ -1,7 +1,7 @@
-import * as hz from 'horizon/core';
+import { Component } from 'horizon/core';
 
-class FindByTag extends hz.Component<typeof FindByTag> {
-    start() {
+class FindByTag extends Component<typeof FindByTag> {
+    preStart() {
         // Find all entities with the tag 'Test'. Make sure there is at least one entity with this tag in the scene.
         const foundEntities = this.world.getEntitiesWithTags(['Test']);
 
@@ -10,6 +10,8 @@ class FindByTag extends hz.Component<typeof FindByTag> {
             console.log(`Found entity with tag 'Test': ${entity.name.get()}`);
         });
     }
+
+    start() {}
 }
 
-hz.Component.register(FindByTag);
+Component.register(FindByTag);

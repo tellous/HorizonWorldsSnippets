@@ -1,19 +1,19 @@
-import * as hz from 'horizon/core';
+import { Component, Entity, Player, CodeBlockEvents, PropTypes } from 'horizon/core';
 
 // This script must be set to "Local" execution mode in the editor.
-class LocalOwnershipDelegation extends hz.Component<typeof LocalOwnershipDelegation> {
+class LocalOwnershipDelegation extends Component<typeof LocalOwnershipDelegation> {
     static propsDefinition = {
-        child: { type: hz.PropTypes.Entity },
+        child: { type: PropTypes.Entity },
     };
 
-    private child?: hz.Entity;
+    private child?: Entity;
 
-    private owner?: hz.Player;
+    private owner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
     //Be aware that ownership transfer on Local entities are transfered on grab
-    start() {
+    preStart() {
         this.owner = this.entity.owner.get();
         
         this.serverPlayer = this.world.getServerPlayer();
@@ -29,7 +29,7 @@ class LocalOwnershipDelegation extends hz.Component<typeof LocalOwnershipDelegat
         //Optionally, transfer ownership back to server on release.
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
     }
@@ -37,6 +37,8 @@ class LocalOwnershipDelegation extends hz.Component<typeof LocalOwnershipDelegat
     private onRelease() {
         this.child?.owner.set(this.serverPlayer!);
     }
+
+    start() {}
 }
 
-hz.Component.register(LocalOwnershipDelegation);
+Component.register(LocalOwnershipDelegation);

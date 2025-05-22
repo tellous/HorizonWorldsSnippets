@@ -1,24 +1,24 @@
-import * as hz from 'horizon/core';
-import * as hzui from 'horizon/ui';
+import { UIComponent, Binding, View, UINode, Text } from 'horizon/ui';
+import { PropTypes, GrabbableEntity, CodeBlockEvents } from 'horizon/core';
 
-export class ConditionalUI extends hzui.UIComponent<typeof ConditionalUI> {
+export class ConditionalUI extends UIComponent<typeof ConditionalUI> {
     static propsDefinition = {
-        grabbable: { type: hz.PropTypes.Entity }
+        grabbable: { type: PropTypes.Entity }
     };
 
-    private isRightHandBinding = new hzui.Binding(false);
+    private isRightHandBinding = new Binding(false);
 
-    private grabbable?: hz.GrabbableEntity;
+    private grabbable?: GrabbableEntity;
 
     initializeUI() {
-        return hzui.View({
+        return View({
             children: [
-                hzui.UINode.if(
+                UINode.if(
                     this.isRightHandBinding,
-                    hzui.Text({
+                    Text({
                         text: "Grabbed with Right Hand",
                     }),
-                    hzui.Text({
+                    Text({
                         text: "Grabbed with Left Hand",
                     })
                 )
@@ -29,8 +29,8 @@ export class ConditionalUI extends hzui.UIComponent<typeof ConditionalUI> {
         });
     }
 
-    start() {
-        this.grabbable = this.props.grabbable?.as(hz.GrabbableEntity);
+    preStart() {
+        this.grabbable = this.props.grabbable?.as(GrabbableEntity);
 
         if (!this.grabbable) {
             console.error("Grabbable entity is not set");
@@ -39,13 +39,15 @@ export class ConditionalUI extends hzui.UIComponent<typeof ConditionalUI> {
 
         this.connectCodeBlockEvent(
             this.grabbable,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
     }
+
+    start() {}
 
     private onGrab(isRightHand: boolean) {
         this.isRightHandBinding.set(isRightHand);
     }
 }
-hzui.UIComponent.register(ConditionalUI);
+UIComponent.register(ConditionalUI);

@@ -1,29 +1,31 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
-class PlayerEnterWorld extends hz.Component<typeof PlayerEnterWorld> {
-    start() {
+class PlayerEnterWorld extends Component<typeof PlayerEnterWorld> {
+    preStart() {
         // Listen for players entering the world
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnter.bind(this)
         );
 
         // Listen for players leaving the world
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerExitWorld,
+            CodeBlockEvents.OnPlayerExitWorld,
             this.onPlayerExit.bind(this)
         );
     }
 
-    onPlayerEnter(player: hz.Player) {
+    start() {}
+
+    onPlayerEnter(player: Player) {
         console.log(`${player.name.get()} has entered the world.`);
     }
     
-    onPlayerExit(player: hz.Player) {
+    onPlayerExit(player: Player) {
         console.log(`${player.name.get()} has left the world.`);
     }
 }
 
-hz.Component.register(PlayerEnterWorld);
+Component.register(PlayerEnterWorld);

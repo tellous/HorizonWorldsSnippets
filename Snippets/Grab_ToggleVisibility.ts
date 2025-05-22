@@ -1,18 +1,22 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents } from 'horizon/core';
 
-class ToggleVisibility extends hz.Component<typeof ToggleVisibility> {
-    start() {
+class ToggleVisibility extends Component<typeof ToggleVisibility> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity, 
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
+    }
+
+    start() {
+        // Intentionally left blank
     }
 
     onGrab() {
@@ -24,4 +28,4 @@ class ToggleVisibility extends hz.Component<typeof ToggleVisibility> {
     }
 }
 
-hz.Component.register(ToggleVisibility);
+Component.register(ToggleVisibility);

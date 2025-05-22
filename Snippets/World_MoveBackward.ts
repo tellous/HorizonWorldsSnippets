@@ -1,11 +1,13 @@
-import * as hz from 'horizon/core';
+import { Component, World } from 'horizon/core';
 
-class MoveBackward extends hz.Component<typeof MoveBackward> {
+class MoveBackward extends Component<typeof MoveBackward> {
     private speed: number = 1; // Increase this value to move faster
 
-    start() {
-        this.connectLocalBroadcastEvent(hz.World.onUpdate, this.update.bind(this));
+    preStart() {
+        this.connectLocalBroadcastEvent(World.onUpdate, this.update.bind(this));
     }
+
+    start() {}
 
     private update(data: { deltaTime: number }) {
         const currentPosition = this.entity.position.get();
@@ -15,4 +17,4 @@ class MoveBackward extends hz.Component<typeof MoveBackward> {
     }
 }
 
-hz.Component.register(MoveBackward);
+Component.register(MoveBackward);

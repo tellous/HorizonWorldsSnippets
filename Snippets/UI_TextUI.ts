@@ -1,10 +1,13 @@
-import * as hzui from 'horizon/ui';
+import { UIComponent, View, Text } from 'horizon/ui';
 
-export class TextUI extends hzui.UIComponent<typeof TextUI> {
-    initializeUI() {
-        return hzui.View({
+export class TextUI extends UIComponent<typeof TextUI> {
+    preStart() {}
+    start() {}
+
+    public initializeUI() {
+        return View({
             children: [
-                hzui.Text({
+                Text({
                     text: "Hello World!",
                 })
             ],
@@ -14,4 +17,4 @@ export class TextUI extends hzui.UIComponent<typeof TextUI> {
         });
     }
 }
-hzui.UIComponent.register(TextUI);
+UIComponent.register(TextUI);

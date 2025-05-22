@@ -1,47 +1,39 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player, PlayerVisibilityMode } from 'horizon/core';
 
-class VipGrab extends hz.Component<typeof VipGrab> {
+class VipGrab extends Component<typeof VipGrab> {
     private vipList = [
         'Tellous'
-    ]
+    ];
+    private whoCanSee: Player[] = [];
 
-    private whoCanSee: hz.Player[] = [];
-
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterWorld.bind(this)
-        )
-
+        );
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerExitWorld,
+            CodeBlockEvents.OnPlayerExitWorld,
             this.onPlayerExitWorld.bind(this)
-        )
+        );
     }
 
-    onPlayerEnterWorld(player: hz.Player) {
-        // Check if the player is in the VIP list
-        if (this.vipList.includes(player.name.get())) {
-            // Add player to the list of players who can see the object
-            this.whoCanSee.push(player);
+    start() {}
 
-            // Allow the player to see the object
-            this.entity.setVisibilityForPlayers(this.whoCanSee, hz.PlayerVisibilityMode.VisibleTo);
+    onPlayerEnterWorld(player: Player) {
+        if (this.vipList.includes(player.name.get())) {
+            this.whoCanSee.push(player);
+            this.entity.setVisibilityForPlayers(this.whoCanSee, PlayerVisibilityMode.VisibleTo);
         }
     }
 
-    onPlayerExitWorld(player: hz.Player) {
-        // Check if the player is in the VIP list
+    onPlayerExitWorld(player: Player) {
         if (this.vipList.includes(player.name.get())) {
-            // Remove player from the list of players who can see the object
             this.whoCanSee = this.whoCanSee.filter(p => p !== player);
-
-            // Hide the object from the player
-            this.entity.setVisibilityForPlayers(this.whoCanSee, hz.PlayerVisibilityMode.VisibleTo);
+            this.entity.setVisibilityForPlayers(this.whoCanSee, PlayerVisibilityMode.VisibleTo);
         }
     }
 }
 
-hz.Component.register(VipGrab);
+Component.register(VipGrab);

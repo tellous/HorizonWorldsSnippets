@@ -1,7 +1,7 @@
-import * as hz from 'horizon/core';
+import { Component, Player, Vec3 } from 'horizon/core';
 
-class PlayerOrbiter extends hz.Component<typeof PlayerOrbiter> {
-    private target?: hz.Player;
+class PlayerOrbiter extends Component<typeof PlayerOrbiter> {
+    private target?: Player;
 
     private radius: number = 2; // Radius of the orbit
 
@@ -9,9 +9,9 @@ class PlayerOrbiter extends hz.Component<typeof PlayerOrbiter> {
 
     private maxTime = 1; // Time in seconds to complete one orbit
 
-    start() {
+    preStart() {}
 
-    }
+    start() {}
 
     update(data: { deltaTime: number }) {
         if (!this.target) {
@@ -23,9 +23,8 @@ class PlayerOrbiter extends hz.Component<typeof PlayerOrbiter> {
         const targetPos = this.target.position.get();
         const x = targetPos.x + Math.cos(angle) * this.radius;
         const z = targetPos.z + Math.sin(angle) * this.radius;
-        this.entity.position.set(new hz.Vec3(x, targetPos.y, z));
-
+        this.entity.position.set(new Vec3(x, targetPos.y, z));
     }
 }
 
-hz.Component.register(PlayerOrbiter);
+Component.register(PlayerOrbiter);

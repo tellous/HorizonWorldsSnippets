@@ -1,17 +1,17 @@
-import * as hz from 'horizon/core';
-import hzcapture from 'horizon/capturing';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
+import { PlayerCapturing } from 'horizon/capturing';
 
-class TriggerInstantReplay extends hz.Component<typeof TriggerInstantReplay> {
-    start() {
+class TriggerInstantReplay extends Component<typeof TriggerInstantReplay> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnterTrigger.bind(this),
         );
     }
 
-    onPlayerEnterTrigger(player: hz.Player) {
-        const capture = new hzcapture.PlayerCapturing(player.id);
+    onPlayerEnterTrigger(player: Player) {
+        const capture = new PlayerCapturing(player.id);
 
         capture.startVideoCapture("InstantReplay").then(() => {
             console.log("Instant replay reached max time");
@@ -19,5 +19,7 @@ class TriggerInstantReplay extends hz.Component<typeof TriggerInstantReplay> {
             console.error("Something went wrong", error);
         });
     }
+
+    start() {}
 }
-hz.Component.register(TriggerInstantReplay);
+Component.register(TriggerInstantReplay);

@@ -1,14 +1,14 @@
-import * as hz from 'horizon/core';
-import LocalCamera, * as hzcam from 'horizon/camera';
+import { Component, Player, CodeBlockEvents } from 'horizon/core';
+import LocalCamera from 'horizon/camera';
 
 // See World_OwnershipManagement to manage ownership 
 // This script must be set to "Local" execution mode in the editor.
-class SwitchCameraToFirstPerson extends hz.Component<typeof SwitchCameraToFirstPerson> {
-    private owner?: hz.Player;
+class SwitchCameraToFirstPerson extends Component<typeof SwitchCameraToFirstPerson> {
+    private owner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
-    start() {
+    preStart() {
         // The player will own the entity when it is grabbed
         this.owner = this.entity.owner.get();
 
@@ -20,12 +20,15 @@ class SwitchCameraToFirstPerson extends hz.Component<typeof SwitchCameraToFirstP
             return;
         }
 
-          
-        this.connectCodeBlockEvent(this.entity, hz.CodeBlockEvents.OnPlayerEnterTrigger, this.onPlayerEnterTrigger.bind(this));
+        this.connectCodeBlockEvent(this.entity, CodeBlockEvents.OnPlayerEnterTrigger, this.onPlayerEnterTrigger.bind(this));
+    }
+
+    start() {
+        // Intentionally left blank
     }
 
     private onPlayerEnterTrigger() {
         LocalCamera.setCameraModeFirstPerson();
     }
 }
-hz.Component.register(SwitchCameraToFirstPerson);
+Component.register(SwitchCameraToFirstPerson);

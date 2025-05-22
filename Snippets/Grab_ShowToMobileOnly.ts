@@ -1,32 +1,36 @@
-import * as hz from 'horizon/core';
+import { Component, Player, PlayerDeviceType, CodeBlockEvents } from 'horizon/core';
 
-class ShowToMobileOnly extends hz.Component<typeof ShowToMobileOnly> {
-    start() {
+class ShowToMobileOnly extends Component<typeof ShowToMobileOnly> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
     }
 
-    private onGrab(isRightHand: boolean, player: hz.Player) {
+    start() {
+        // Intentionally left blank
+    }
+
+    private onGrab(isRightHand: boolean, player: Player) {
         const device = player.deviceType.get();
         
-        if (device === hz.PlayerDeviceType.Mobile) {
+        if (device === PlayerDeviceType.Mobile) {
             this.entity.visible.set(true);
 
             console.log('Mobile device detected, showing entity.');
-        } else if (device === hz.PlayerDeviceType.Desktop) {
+        } else if (device === PlayerDeviceType.Desktop) {
             this.entity.visible.set(false);
 
             console.log('Desktop device detected, hiding entity.');
-        } else if (device === hz.PlayerDeviceType.VR) {
+        } else if (device === PlayerDeviceType.VR) {
             this.entity.visible.set(false);
 
             console.log('VR device detected, hiding entity.');
@@ -37,9 +41,9 @@ class ShowToMobileOnly extends hz.Component<typeof ShowToMobileOnly> {
         }
     }
 
-    private onRelease(player: hz.Player) {
+    private onRelease(player: Player) {
         this.entity.visible.set(false);
     }
 }
 
-hz.Component.register(ShowToMobileOnly);
+Component.register(ShowToMobileOnly);

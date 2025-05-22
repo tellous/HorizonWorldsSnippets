@@ -1,21 +1,23 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, World, Player, Vec3 } from 'horizon/core';
 
-class PlayerFollower extends hz.Component<typeof PlayerFollower> {
-    private target?: hz.Player;
+class PlayerFollower extends Component<typeof PlayerFollower> {
+    private target?: Player;
 
     private speed: number = 0.1;
 
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterWorld.bind(this)
         );
 
-        this.connectLocalBroadcastEvent(hz.World.onUpdate, this.update.bind(this));
+        this.connectLocalBroadcastEvent(World.onUpdate, this.update.bind(this));
     }
 
-    private onPlayerEnterWorld(player: hz.Player) {
+    start() {}
+
+    private onPlayerEnterWorld(player: Player) {
         this.target = player;
     }
 
@@ -23,7 +25,7 @@ class PlayerFollower extends hz.Component<typeof PlayerFollower> {
         if (!this.target) {
             return;
         }
-        const targetPos = this.target?.position.get();
+        const targetPos = this.target.position.get();
         const currentPos = this.entity.position.get();
         const direction = targetPos.sub(currentPos).normalize();
         const newPos = currentPos.add(direction.mul(this.speed));
@@ -31,4 +33,4 @@ class PlayerFollower extends hz.Component<typeof PlayerFollower> {
     }
 }
 
-hz.Component.register(PlayerFollower);
+Component.register(PlayerFollower);

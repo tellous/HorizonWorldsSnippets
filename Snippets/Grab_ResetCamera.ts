@@ -1,14 +1,14 @@
-import * as hz from 'horizon/core';
-import LocalCamera, * as hzcam from 'horizon/camera';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
+import LocalCamera from 'horizon/camera';
 
 // See World_OwnershipManagement to manage ownership 
 // This script must be set to "Local" execution mode in the editor.
-class FirstPersonView extends hz.Component<typeof FirstPersonView> {
-    private owner?: hz.Player;
+class FirstPersonView extends Component<typeof FirstPersonView> {
+    private owner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
-    start() {
+    preStart() {
         // The player will own the entity when it is grabbed
         this.owner = this.entity.owner.get();
 
@@ -22,16 +22,18 @@ class FirstPersonView extends hz.Component<typeof FirstPersonView> {
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
     }
+
+    start() {}
 
     private onGrab() {
         // Set the camera mode to first person when the entity is grabbed
@@ -46,4 +48,4 @@ class FirstPersonView extends hz.Component<typeof FirstPersonView> {
         this.entity.owner.set(this.serverPlayer!);
     }
 }
-hz.Component.register(FirstPersonView);
+Component.register(FirstPersonView);

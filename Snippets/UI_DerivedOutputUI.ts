@@ -1,13 +1,19 @@
-import * as hzui from 'horizon/ui';
+import { UIComponent, Binding, View, Text } from 'horizon/ui';
 
-export class DerivedOutputUI extends hzui.UIComponent<typeof DerivedOutputUI> {
-    private textBinding = new hzui.Binding("World");
+export class DerivedOutputUI extends UIComponent<typeof DerivedOutputUI> {
+    private textBinding = new Binding("World");
+
+    preStart() {
+        this.textBinding.derive((text) => `Hello ${text}!`);
+    }
+
+    start() {}
 
     initializeUI() {
-        return hzui.View({
+        return View({
             children: [
-                hzui.Text({
-                    text: this.textBinding.derive((text) => `Hello ${text}!`),
+                Text({
+                    text: this.textBinding,
                 })
             ],
             style: {
@@ -16,4 +22,4 @@ export class DerivedOutputUI extends hzui.UIComponent<typeof DerivedOutputUI> {
         });
     }
 }
-hzui.UIComponent.register(DerivedOutputUI);
+UIComponent.register(DerivedOutputUI);

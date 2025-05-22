@@ -1,25 +1,25 @@
-import * as hz from 'horizon/core';
-import * as hznav from 'horizon/navmesh';
+import { Component, PropTypes, Vec3 } from 'horizon/core';
+import { NavMeshAgent } from 'horizon/navmesh';
 
-class NpcNavTest extends hz.Component<typeof NpcNavTest> {
+class NpcNavTest extends Component<typeof NpcNavTest> {
     static propsDefinition = {
-        destination: { type: hz.PropTypes.Entity }
+        destination: { type: PropTypes.Entity }
     };
 
-    agent?: hznav.NavMeshAgent;
+    agent?: NavMeshAgent;
 
-    startPosition: hz.Vec3 = hz.Vec3.zero;
+    startPosition: Vec3 = Vec3.zero;
 
-    endPosition: hz.Vec3 = hz.Vec3.zero;
+    endPosition: Vec3 = Vec3.zero;
 
     shouldMoveTowardsEnd = true;
 
-    start() {
-        this.agent = this.entity.as(hznav.NavMeshAgent);
+    preStart() {
+        this.agent = this.entity.as(NavMeshAgent);
 
-        this.startPosition = this.agent?.position.get() ?? hz.Vec3.zero;
+        this.startPosition = this.agent?.position.get() ?? Vec3.zero;
 
-        this.endPosition = this.props.destination?.position.get() ?? hz.Vec3.zero;
+        this.endPosition = this.props.destination?.position.get() ?? Vec3.zero;
 
         const destination = this.shouldMoveTowardsEnd
             ? this.endPosition
@@ -36,5 +36,9 @@ class NpcNavTest extends hz.Component<typeof NpcNavTest> {
             this.agent?.destination.set(targetPosition);
         }, 3000);
     }
+
+    start() {
+        // Intentionally left blank
+    }
 }
-hz.Component.register(NpcNavTest);
+Component.register(NpcNavTest);

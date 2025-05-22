@@ -1,21 +1,23 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, CodeBlockEvents, ProjectileLauncherGizmo } from 'horizon/core';
 
-class ProjectileLauncher extends hz.Component<typeof ProjectileLauncher> {
+class ProjectileLauncher extends Component<typeof ProjectileLauncher> {
     static propsDefinition = {
-        projectileLauncher: { type: hz.PropTypes.Entity },
+        projectileLauncher: { type: PropTypes.Entity },
     };
 
-    private projectileLauncher?: hz.ProjectileLauncherGizmo;
+    private projectileLauncher?: ProjectileLauncherGizmo;
 
-    start() {
-        this.projectileLauncher = this.props.projectileLauncher?.as(hz.ProjectileLauncherGizmo);
+    preStart() {
+        this.projectileLauncher = this.props.projectileLauncher?.as(ProjectileLauncherGizmo);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnIndexTriggerDown,
+            CodeBlockEvents.OnIndexTriggerDown,
             this.onTriggerDown.bind(this)
         );
     }
+
+    start() {}
 
     onTriggerDown() {
         if (this.projectileLauncher) {
@@ -24,4 +26,4 @@ class ProjectileLauncher extends hz.Component<typeof ProjectileLauncher> {
     }
 }
 
-hz.Component.register(ProjectileLauncher);
+Component.register(ProjectileLauncher);

@@ -1,31 +1,31 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, Vec3, Quaternion, Player, RaycastGizmo, CodeBlockEvents, World, PlayerVisibilityMode, Entity } from 'horizon/core';
 
 // See World_OwnershipManagement to manage ownership 
 // This script must be set to "Local" execution mode in the editor.
-class VRCrosshair extends hz.Component<typeof VRCrosshair> {
+class VRCrosshair extends Component<typeof VRCrosshair> {
     static propsDefinition = {
-        ray: { type: hz.PropTypes.Entity },
-        crosshair: { type: hz.PropTypes.Entity }
+        ray: { type: PropTypes.Entity },
+        crosshair: { type: PropTypes.Entity }
     };
 
-    private owner?: hz.Player;
+    private owner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
-    private ray?: hz.RaycastGizmo;
+    private ray?: RaycastGizmo;
 
-    private crosshair?: hz.Entity;
+    private crosshair?: Entity;
 
     private isGrabbed = false;
 
     private maxDistance = 20; // Adjust maxDistance as needed
 
-    start() {
+    preStart() {
         this.owner = this.entity.owner.get();
 
         this.serverPlayer = this.world.getServerPlayer();
 
-        this.ray = this.props.ray?.as(hz.RaycastGizmo);
+        this.ray = this.props.ray?.as(RaycastGizmo);
         this.ray?.owner.set(this.entity.owner.get());
 
         this.crosshair = this.props.crosshair;
@@ -38,47 +38,49 @@ class VRCrosshair extends hz.Component<typeof VRCrosshair> {
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
 
         this.connectLocalBroadcastEvent(
-            hz.World.onUpdate,
+            World.onUpdate,
             this.onUpdate.bind(this)
         );
     }
 
-    onGrab(isRightHand: boolean, player: hz.Player) {
+    start() {}
+
+    onGrab(isRightHand: boolean, player: Player) {
         this.isGrabbed = true;
-        this.crosshair?.setVisibilityForPlayers([player], hz.PlayerVisibilityMode.VisibleTo);
+        this.crosshair?.setVisibilityForPlayers([player], PlayerVisibilityMode.VisibleTo);
     }
 
-    onRelease(player: hz.Player) {
+    onRelease(player: Player) {
         this.isGrabbed = false;
-        this.crosshair?.setVisibilityForPlayers([], hz.PlayerVisibilityMode.VisibleTo);
+        this.crosshair?.setVisibilityForPlayers([], PlayerVisibilityMode.VisibleTo);
     }
 
     onUpdate() {
         if (this.isGrabbed) {
-            const origin = this.ray?.position.get() ?? hz.Vec3.zero;
-            const direction = this.ray?.forward.get() ?? hz.Vec3.forward;
+            const origin = this.ray?.position.get() ?? Vec3.zero;
+            const direction = this.ray?.forward.get() ?? Vec3.forward;
             const rayData = this.ray?.raycast(origin, direction, { maxDistance: this.maxDistance });
 
             if (rayData) {
                 this.crosshair?.position.set(rayData.hitPoint);
-                this.crosshair?.rotation.set(hz.Quaternion.lookRotation(rayData.normal, hz.Vec3.up));
+                this.crosshair?.rotation.set(Quaternion.lookRotation(rayData.normal, Vec3.up));
             } else {
                 this.crosshair?.position.set(origin.add(direction.mul(this.maxDistance)));
-                this.crosshair?.rotation.set(hz.Quaternion.zero);
+                this.crosshair?.rotation.set(Quaternion.zero);
             }
         }
     }
 }
 
-hz.Component.register(VRCrosshair);
+Component.register(VRCrosshair);

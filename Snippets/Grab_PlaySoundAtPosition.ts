@@ -1,26 +1,28 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, CodeBlockEvents, AudioGizmo, Player } from 'horizon/core';
 
-class PlaySoundAtPosition extends hz.Component<typeof PlaySoundAtPosition> {
+class PlaySoundAtPosition extends Component<typeof PlaySoundAtPosition> {
     static propsDefinition = {
-        sound: { type: hz.PropTypes.Entity }
+        sound: { type: PropTypes.Entity }
     };
 
-    private sound?: hz.AudioGizmo;
+    private sound?: AudioGizmo;
 
-    start() {
-        this.sound = this.props.sound?.as(hz.AudioGizmo);
+    preStart() {
+        this.sound = this.props.sound?.as(AudioGizmo);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
     }
 
-    onGrab(isRightHand: boolean, player: hz.Player) {
+    start() {}
+
+    onGrab(isRightHand: boolean, player: Player) {
         this.sound?.position.set(this.entity.position.get());
         this.sound?.play();
     }
 }
 
-hz.Component.register(PlaySoundAtPosition);
+Component.register(PlaySoundAtPosition);

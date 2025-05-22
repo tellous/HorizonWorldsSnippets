@@ -1,27 +1,29 @@
-import * as hz from 'horizon/core';
+import { Component, Vec3, CodeBlockEvents } from 'horizon/core';
 
-class ScaleObject extends hz.Component<typeof ScaleObject> {
-    private startScale = hz.Vec3.zero;
+class ScaleObject extends Component<typeof ScaleObject> {
+    private startScale = Vec3.zero;
 
-    private doubleScale = hz.Vec3.zero;
+    private doubleScale = Vec3.zero;
 
-    start() {
+    preStart() {
         this.startScale = this.entity.scale.get();
 
         this.doubleScale = this.startScale.mul(2);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
     }
+
+    start() {}
 
     onGrab() {
         this.entity.scale.set(this.doubleScale);
@@ -32,4 +34,4 @@ class ScaleObject extends hz.Component<typeof ScaleObject> {
     }
 }
 
-hz.Component.register(ScaleObject);
+Component.register(ScaleObject);

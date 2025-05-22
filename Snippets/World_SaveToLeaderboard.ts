@@ -1,21 +1,23 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
-class SaveToLeaderboard extends hz.Component<typeof SaveToLeaderboard> {
+class SaveToLeaderboard extends Component<typeof SaveToLeaderboard> {
     //Assumes you have a PPV group in your world called "Test" with a number variable called "score" 
     private ppvName = "Test:score"
 
     //Assumes you have a leaderboard called "TotalScore"
     private leaderboardName = "TotalScore"
 
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterWorld.bind(this)
         );
     }
 
-    private onPlayerEnterWorld(player: hz.Player) {
+    start() {}
+
+    private onPlayerEnterWorld(player: Player) {
         // Get the player's score
         let score = this.world.persistentStorage.getPlayerVariable(
             player,
@@ -42,4 +44,4 @@ class SaveToLeaderboard extends hz.Component<typeof SaveToLeaderboard> {
     }
 }
 
-hz.Component.register(SaveToLeaderboard);
+Component.register(SaveToLeaderboard);

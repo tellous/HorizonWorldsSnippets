@@ -1,12 +1,12 @@
-import * as hz from 'horizon/core';
-import LocalCamera, * as hzcam from 'horizon/camera';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
+import LocalCamera, { Easing } from 'horizon/camera';
 
 // See World_OwnershipManagement to manage ownership 
 // This script must be set to "Local" execution mode in the editor.
-class ScreenWiggle extends hz.Component<typeof ScreenWiggle> {
-    private owner?: hz.Player;
+class ScreenWiggle extends Component<typeof ScreenWiggle> {
+    private owner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
     private isWiggling: boolean = false;
 
@@ -16,7 +16,7 @@ class ScreenWiggle extends hz.Component<typeof ScreenWiggle> {
 
     private oscillations: number = 4;
 
-    start() {
+    preStart() {
         // The player will own the entity when it is grabbed
         this.owner = this.entity.owner.get();
 
@@ -28,7 +28,11 @@ class ScreenWiggle extends hz.Component<typeof ScreenWiggle> {
             return;
         }
 
-        this.connectCodeBlockEvent(this.entity, hz.CodeBlockEvents.OnPlayerEnterTrigger, this.onPlayerEnterTrigger.bind(this));
+        this.connectCodeBlockEvent(this.entity, CodeBlockEvents.OnPlayerEnterTrigger, this.onPlayerEnterTrigger.bind(this));
+    }
+
+    start() {
+        // Intentionally left blank
     }
 
     private onPlayerEnterTrigger() {
@@ -55,18 +59,18 @@ class ScreenWiggle extends hz.Component<typeof ScreenWiggle> {
             // Set the camera roll with easing for a smooth transition
             await LocalCamera.setCameraRollWithOptions(rollAngle, {
                 duration: oscillationDuration / 2,
-                easing: hzcam.Easing.EaseInOut
+                easing: Easing.EaseInOut
             });
         }
 
         // Return camera to normal
         await LocalCamera.setCameraRollWithOptions(0, {
             duration: oscillationDuration,
-            easing: hzcam.Easing.EaseOut
+            easing: Easing.EaseOut
         });
 
         this.isWiggling = false;
     }
 }
 
-hz.Component.register(ScreenWiggle);
+Component.register(ScreenWiggle);

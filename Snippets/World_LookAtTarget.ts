@@ -1,22 +1,23 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, World, Quaternion, Vec3, Player } from 'horizon/core';
 
-class LookAtTarget extends hz.Component<typeof LookAtTarget> {
-    private target?: hz.Player;
+class LookAtTarget extends Component<typeof LookAtTarget> {
+    private target?: Player;
 
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnter.bind(this)
         );
-
         this.connectLocalBroadcastEvent(
-            hz.World.onUpdate,
+            World.onUpdate,
             this.update.bind(this)
         );
     }
 
-    private onPlayerEnter(player: hz.Player) {
+    start() {}
+
+    private onPlayerEnter(player: Player) {
         this.target = player;
     }
     
@@ -30,9 +31,9 @@ class LookAtTarget extends hz.Component<typeof LookAtTarget> {
             const direction = playerPos.sub(entityPos).normalize();
 
             // Set the entity's rotation to look at the player
-            this.entity.rotation.set(hz.Quaternion.lookRotation(direction, hz.Vec3.up));
+            this.entity.rotation.set(Quaternion.lookRotation(direction, Vec3.up));
         }
     }
 }
 
-hz.Component.register(LookAtTarget);
+Component.register(LookAtTarget);

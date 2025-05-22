@@ -1,23 +1,27 @@
-import * as hz from 'horizon/core';
+import { Component, GrabbableEntity, CodeBlockEvents, Player } from 'horizon/core';
 
-class VipGrab extends hz.Component<typeof VipGrab> {
+class VipGrab extends Component<typeof VipGrab> {
     private vipList = [
         'Tellous'
     ]
 
-    private grabbable?: hz.GrabbableEntity;
+    private grabbable?: GrabbableEntity;
 
-    start() {
-        this.grabbable = this.entity.as(hz.GrabbableEntity);
+    preStart() {
+        this.grabbable = this.entity.as(GrabbableEntity);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         )
     }
+
+    start() {
+        // Intentionally left blank
+    }
     
-    onGrab(isRightHand: boolean, player:hz.Player) {
+    onGrab(isRightHand: boolean, player: Player) {
         // Check if the player is in the VIP list
         if (this.vipList.includes(player.name.get())) {
             // Allow the player to grab the object
@@ -30,4 +34,4 @@ class VipGrab extends hz.Component<typeof VipGrab> {
     }
 }
 
-hz.Component.register(VipGrab);
+Component.register(VipGrab);

@@ -1,24 +1,28 @@
-import * as hz from 'horizon/core';
+import { Component, MeshEntity, TextureAsset, CodeBlockEvents } from 'horizon/core';
 
-class MeshTextureChanger extends hz.Component<typeof MeshTextureChanger> {
-    private mesh?: hz.MeshEntity;
+class MeshTextureChanger extends Component<typeof MeshTextureChanger> {
+    private mesh?: MeshEntity;
 
-    start() {
-        this.mesh = this.entity.as(hz.MeshEntity);
+    preStart() {
+        this.mesh = this.entity.as(MeshEntity);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
+    }
+
+    start() {
+        // Intentionally left blank
     }
 
     onGrab() {
         //Replace with your texture ID
         const textureId = 0;
 
-        this.mesh?.setTexture(new hz.TextureAsset(BigInt(textureId)))
+        this.mesh?.setTexture(new TextureAsset(BigInt(textureId)))
     }
 }
 
-hz.Component.register(MeshTextureChanger);
+Component.register(MeshTextureChanger);

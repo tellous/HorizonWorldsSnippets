@@ -1,32 +1,34 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, World, Player, PlayerBodyPartType, Vec3, Quaternion } from 'horizon/core';
 
-class RelativeTransform extends hz.Component<typeof RelativeTransform> {
-    player?: hz.Player;
+class RelativeTransform extends Component<typeof RelativeTransform> {
+    player?: Player;
 
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterWorld.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerExitWorld,
+            CodeBlockEvents.OnPlayerExitWorld,
             this.onPlayerExitWorld.bind(this)
         );
 
         this.connectLocalBroadcastEvent(
-            hz.World.onUpdate,
+            World.onUpdate,
             this.onUpdate.bind(this)
         );
     }
 
-    onPlayerEnterWorld(player: hz.Player) {
+    start() {}
+
+    onPlayerEnterWorld(player: Player) {
         this.player = player;
     }
 
-    onPlayerExitWorld(player: hz.Player) {
+    onPlayerExitWorld(player: Player) {
         if (this.player === player) {
             this.player = undefined;
         }
@@ -37,9 +39,9 @@ class RelativeTransform extends hz.Component<typeof RelativeTransform> {
             return;
         }
 
-        this.entity.moveRelativeToPlayer(this.player, hz.PlayerBodyPartType.RightHand, hz.Vec3.zero);
-        this.entity.rotateRelativeToPlayer(this.player, hz.PlayerBodyPartType.RightHand, hz.Quaternion.zero);
+        this.entity.moveRelativeToPlayer(this.player, PlayerBodyPartType.RightHand, Vec3.zero);
+        this.entity.rotateRelativeToPlayer(this.player, PlayerBodyPartType.RightHand, Quaternion.zero);
     }
 }
 
-hz.Component.register(RelativeTransform);
+Component.register(RelativeTransform);

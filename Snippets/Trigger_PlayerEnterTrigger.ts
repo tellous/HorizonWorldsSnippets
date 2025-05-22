@@ -1,17 +1,19 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
-class PlayerEnterTrigger extends hz.Component<typeof PlayerEnterTrigger> {
-    start() {
+class PlayerEnterTrigger extends Component<typeof PlayerEnterTrigger> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnter.bind(this)
         );
     }
 
-    onPlayerEnter(player: hz.Player) {
+    start() {}
+
+    onPlayerEnter(player: Player) {
         console.log(`${player.name.get()} entered the trigger`);
     }
 }
 
-hz.Component.register(PlayerEnterTrigger);
+Component.register(PlayerEnterTrigger);

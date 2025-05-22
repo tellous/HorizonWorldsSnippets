@@ -1,15 +1,15 @@
-import * as hz from 'horizon/core';
+import { Component, Vec3, Quaternion, CodeBlockEvents, Entity, Player } from 'horizon/core';
 
 type ObjectPoolData = {
     inUse: boolean;
 };
 
-class UseObjectPool extends hz.Component<typeof UseObjectPool> {
-    private objects = new Map<hz.Entity, ObjectPoolData>();
+class UseObjectPool extends Component<typeof UseObjectPool> {
+    private objects = new Map<Entity, ObjectPoolData>();
 
-    poolPosition: hz.Vec3 = hz.Vec3.zero;
+    poolPosition: Vec3 = Vec3.zero;
 
-    start() {
+    preStart() {
         this.poolPosition = this.entity.position.get();
 
         //Make sure to tag the entities you want to use with "Object"
@@ -23,23 +23,25 @@ class UseObjectPool extends hz.Component<typeof UseObjectPool> {
 
             // Set the entity's position to the pool position
             entity.position.set(this.poolPosition);
-            entity.rotation.set(hz.Quaternion.zero);
+            entity.rotation.set(Quaternion.zero);
         }
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnterTrigger.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerExitTrigger,
+            CodeBlockEvents.OnPlayerExitTrigger,
             this.onPlayerExitTrigger.bind(this)
         );
     }
 
-    onPlayerEnterTrigger(player: hz.Player) {
+    start() {}
+
+    onPlayerEnterTrigger(player: Player) {
         // Check if there are any available objects in the pool
         const availableObject = Array.from(this.objects.entries()).find(([_, data]) => !data.inUse);
         if (availableObject) {
@@ -60,7 +62,7 @@ class UseObjectPool extends hz.Component<typeof UseObjectPool> {
         console.log('No available objects in the pool');
     }
 
-    onPlayerExitTrigger(player: hz.Player) {
+    onPlayerExitTrigger(player: Player) {
         // Check if there are any objects in use
         const usedObject = Array.from(this.objects.entries()).find(([_, data]) => data.inUse);
         if (usedObject) {
@@ -73,11 +75,11 @@ class UseObjectPool extends hz.Component<typeof UseObjectPool> {
 
             // Move the object back to the pool position
             entity.position.set(this.poolPosition);
-            entity.rotation.set(hz.Quaternion.zero);
+            entity.rotation.set(Quaternion.zero);
 
             return;
         }
     }
 }
 
-hz.Component.register(UseObjectPool);
+Component.register(UseObjectPool);

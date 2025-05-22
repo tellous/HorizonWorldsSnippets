@@ -1,16 +1,20 @@
-import * as hzui from 'horizon/ui';
-import * as hz from 'horizon/core';
+import { UIComponent, View } from 'horizon/ui';
+import { Color } from 'horizon/core';
 
-export class ShadowUI extends hzui.UIComponent<typeof ShadowUI> {
-    initializeUI() {
-        return hzui.View({
+export class ShadowUI extends UIComponent<typeof ShadowUI> {
+    preStart() {}
+
+    start() {}
+
+    public initializeUI() {
+        return View({
             children: [
-                hzui.View({
+                View({
                     style: {
                         width: 200,
                         height: 150,
                         backgroundColor: 'white',
-                        shadowColor: hz.Color.black,
+                        shadowColor: Color.black,
                         shadowOffset: [10, 10],
                         shadowOpacity: 0.5,
                         shadowRadius: 5
@@ -23,4 +27,5 @@ export class ShadowUI extends hzui.UIComponent<typeof ShadowUI> {
         });
     }
 }
-hzui.UIComponent.register(ShadowUI);
+
+UIComponent.register(ShadowUI);

@@ -1,9 +1,9 @@
-import * as hz from 'horizon/core';
+import { Component } from 'horizon/core';
 
-class SimpleTimer extends hz.Component<typeof SimpleTimer> {
+class SimpleTimer extends Component<typeof SimpleTimer> {
     private timeRemaining = 0;
 
-    start() {
+    preStart() {
         // Start a countdown timer for 10 seconds
         this.timeRemaining = 10;
 
@@ -19,6 +19,10 @@ class SimpleTimer extends hz.Component<typeof SimpleTimer> {
             }
         }, 1000);
     }
+
+    start() {
+        // Intentionally left blank
+    }
 }
 
-hz.Component.register(SimpleTimer);
+Component.register(SimpleTimer);

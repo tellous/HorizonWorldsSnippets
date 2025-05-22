@@ -1,14 +1,14 @@
-import * as hz from 'horizon/core';
+import { Component, Player, CodeBlockEvents } from 'horizon/core';
 import LocalCamera from 'horizon/camera';
 
 // See World_OwnershipManagement to manage ownership 
 // This script must be set to "Local" execution mode in the editor.
-class WorldToScreenPosition extends hz.Component<typeof WorldToScreenPosition> {
-    private owner?: hz.Player;
+class WorldToScreenPosition extends Component<typeof WorldToScreenPosition> {
+    private owner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
-    start() {
+    preStart() {
         this.owner = this.entity.owner.get();
 
         this.serverPlayer = this.world.getServerPlayer();
@@ -20,12 +20,14 @@ class WorldToScreenPosition extends hz.Component<typeof WorldToScreenPosition> {
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.OnGrab.bind(this)
         );
     }
 
-    private OnGrab(isRightHand: boolean, player: hz.Player) {
+    start() {}
+
+    private OnGrab(isRightHand: boolean, player: Player) {
         const position = this.entity.position.get();
 
         LocalCamera.convertWorldToScreenPoint(position);
@@ -34,4 +36,4 @@ class WorldToScreenPosition extends hz.Component<typeof WorldToScreenPosition> {
     }
 }
 
-hz.Component.register(WorldToScreenPosition);
+Component.register(WorldToScreenPosition);

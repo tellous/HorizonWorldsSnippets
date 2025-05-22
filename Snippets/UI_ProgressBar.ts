@@ -1,11 +1,11 @@
-import * as hzui from 'horizon/ui';
+import { UIComponent, AnimatedBinding, Binding, Animation, Easing, View, Text } from 'horizon/ui';
 
-export class ProgressBar extends hzui.UIComponent<typeof ProgressBar> {
+export class ProgressBar extends UIComponent<typeof ProgressBar> {
     static propsDefinition = {};
 
-    private animationValueBinding = new hzui.AnimatedBinding(0);
+    private animationValueBinding = new AnimatedBinding(0);
 
-    private progressValueBinding = new hzui.Binding(0);
+    private progressValueBinding = new Binding(0);
 
     private currentProgress = 0;
 
@@ -16,7 +16,7 @@ export class ProgressBar extends hzui.UIComponent<typeof ProgressBar> {
 
     private incrementInterval = 3000; // 3 seconds
 
-    start() {
+    preStart() {
         console.log('Bar component started');
 
         //Testing increment progress every 3 seconds
@@ -25,11 +25,13 @@ export class ProgressBar extends hzui.UIComponent<typeof ProgressBar> {
         }, this.incrementInterval);
     }
 
+    start() {}
+
     initializeUI() {
-        return hzui.View({
+        return View({
             children: [
                 //Progress bar container
-                hzui.View({
+                View({
                     style: {
                         width: '100%',
                         height: 30,
@@ -39,7 +41,7 @@ export class ProgressBar extends hzui.UIComponent<typeof ProgressBar> {
                     },
                     children: [
                         // Progress bar fill
-                        hzui.View({
+                        View({
                             style: {
                                 height: '100%',
                                 backgroundColor: 'green',
@@ -50,7 +52,7 @@ export class ProgressBar extends hzui.UIComponent<typeof ProgressBar> {
                     ]
                 }),
                 // Progress text
-                hzui.Text({
+                Text({
                     style: {
                         marginTop: 10,
                         color: 'white',
@@ -81,12 +83,11 @@ export class ProgressBar extends hzui.UIComponent<typeof ProgressBar> {
 
             // Animate to the new progress value
             this.animationValueBinding.set(
-                hzui.Animation.timing(progressRatio, {
+                Animation.timing(progressRatio, {
                     duration: 500,
-                    easing: hzui.Easing.inOut(hzui.Easing.ease)
+                    easing: Easing.inOut(Easing.ease)
                 })
             );
         }
     }
 }
-hzui.UIComponent.register(ProgressBar);

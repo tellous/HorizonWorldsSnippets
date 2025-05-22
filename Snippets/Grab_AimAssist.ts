@@ -1,29 +1,31 @@
-import * as hz from 'horizon/core';
+import { Component, Entity, Player, PropTypes, CodeBlockEvents } from 'horizon/core';
 
-class AimAssist extends hz.Component<typeof AimAssist> {
+class AimAssist extends Component<typeof AimAssist> {
     static propsDefinition = {
-        target: { type: hz.PropTypes.Entity },
+        target: { type: PropTypes.Entity },
     };
 
-    private target?: hz.Entity;
+    private target?: Entity;
 
-    start() {
+    start() {}
+
+    preStart() {
         this.target = this.props.target;
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
     }
 
-    private onGrab(isRightHand: boolean, player: hz.Player) {
+    private onGrab(isRightHand: boolean, player: Player) {
         if (!this.target) {
             console.error('Target not set in properties');
             return;
@@ -32,9 +34,9 @@ class AimAssist extends hz.Component<typeof AimAssist> {
         player.setAimAssistTarget(this.target);
     }
 
-    private onRelease(player: hz.Player) {
+    private onRelease(player: Player) {
         player.clearAimAssistTarget();
     }
 }
 
-hz.Component.register(AimAssist);
+Component.register(AimAssist);

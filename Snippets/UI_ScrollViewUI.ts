@@ -1,26 +1,30 @@
-import * as hzui from 'horizon/ui';
-import * as hz from 'horizon/core';
+import { UIComponent, View, ScrollView } from 'horizon/ui';
+import { Color } from 'horizon/core';
 
-export class ScrollViewUI extends hzui.UIComponent<typeof ScrollViewUI> {
-    initializeUI() {
+export class ScrollViewUI extends UIComponent<typeof ScrollViewUI> {
+    preStart() {}
+
+    start() {}
+
+    public initializeUI() {
         // Create a list of squares to fill the scroll view
-        const squares = Array.from({ length: 20 }, (_, i) => hzui.View({
+        const squares = Array.from({ length: 20 }, (_, i) => View({
             style: {
                 width: 50,
                 height: 50,
-                backgroundColor: hz.Color.black,
+                backgroundColor: 'black',
                 margin: 10
             },
         }));
 
-        return hzui.View({
+        return View({
             children: [
-                hzui.ScrollView({
+                ScrollView({
                     children: squares,
                     style: {
                         width: 300,
                         height: 300,
-                        backgroundColor: hz.Color.white
+                        backgroundColor: 'white'
                     }
                 })
             ],
@@ -30,4 +34,4 @@ export class ScrollViewUI extends hzui.UIComponent<typeof ScrollViewUI> {
         });
     }
 }
-hzui.UIComponent.register(ScrollViewUI);
+UIComponent.register(ScrollViewUI);

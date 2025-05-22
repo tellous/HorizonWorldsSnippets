@@ -1,15 +1,17 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Entity, Player } from 'horizon/core';
 
-class CheckHand extends hz.Component<typeof CheckHand> {
-    start() {
+class CheckHand extends Component<typeof CheckHand> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
     }
 
-    private onGrab(isRightHand: boolean, player:hz.Player) {
+    start() {}
+
+    private onGrab(isRightHand: boolean, player: Player) {
         if (isRightHand) {
             console.log('Right hand grabbed');
         } else {
@@ -18,4 +20,4 @@ class CheckHand extends hz.Component<typeof CheckHand> {
     }
 }
 
-hz.Component.register(CheckHand);
+Component.register(CheckHand);

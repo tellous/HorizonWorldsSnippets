@@ -1,23 +1,25 @@
-import * as hz from 'horizon/core';
+import { Component, AttachableEntity, Player, AttachablePlayerAnchor, CodeBlockEvents } from 'horizon/core';
 
-class AttachToPlayer extends hz.Component<typeof AttachToPlayer> {
-    private attachable?: hz.AttachableEntity;
+class AttachToPlayer extends Component<typeof AttachToPlayer> {
+    private attachable?: AttachableEntity;
 
-    start() {
-        this.attachable = this.entity.as(hz.AttachableEntity);
+    preStart() {
+        this.attachable = this.entity.as(AttachableEntity);
         
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrabStart.bind(this)
         );
     }
 
-    private onGrabStart(isRightHand: boolean, player: hz.Player) {
-        const anchor = hz.AttachablePlayerAnchor.Head;
+    private onGrabStart(isRightHand: boolean, player: Player) {
+        const anchor = AttachablePlayerAnchor.Head;
 
         this.attachable?.attachToPlayer(player, anchor);
     }
+
+    start() {}
 }
 
-hz.Component.register(AttachToPlayer);
+Component.register(AttachToPlayer);

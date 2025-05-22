@@ -1,10 +1,10 @@
-import * as hzui from 'horizon/ui';
+import { UIComponent, View, Text } from 'horizon/ui';
 
-export class DisableUI extends hzui.UIComponent<typeof DisableUI> {
+export class DisableUI extends UIComponent<typeof DisableUI> {
     initializeUI() {
-        return hzui.View({
+        return View({
             children: [
-                hzui.Text({
+                Text({
                     text: "Hello World!",
                 })
             ],
@@ -14,11 +14,13 @@ export class DisableUI extends hzui.UIComponent<typeof DisableUI> {
         });
     }
 
-    start() {
+    preStart() {
         // Set a timeout to disable the UI after 2 seconds
         this.async.setTimeout(() => {
             this.entity.visible.set(false);
         }, 2000);
     }
+
+    start() {}
 }
-hzui.UIComponent.register(DisableUI);
+UIComponent.register(DisableUI);

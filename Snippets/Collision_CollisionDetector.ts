@@ -1,18 +1,20 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Entity } from 'horizon/core';
 
-class CollisionDetector extends hz.Component<typeof CollisionDetector> {
+class CollisionDetector extends Component<typeof CollisionDetector> {
     private debounce = false;
 
-    start() {
+    start() {}
+
+    preStart() {
         // Set up collision handlers
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnEntityCollision,
+            CodeBlockEvents.OnEntityCollision,
             this.onCollide.bind(this)
         );
     }
 
-    private onCollide(other: hz.Entity) {
+    private onCollide(other: Entity) {
         if (!this.debounce) {
             // Ignore collisions if debounce is active
             return;
@@ -29,4 +31,4 @@ class CollisionDetector extends hz.Component<typeof CollisionDetector> {
     }
 }
 
-hz.Component.register(CollisionDetector);
+Component.register(CollisionDetector);

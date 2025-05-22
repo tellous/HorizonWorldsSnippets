@@ -1,19 +1,23 @@
-import * as hz from 'horizon/core';
-import * as hzui from 'horizon/ui';
+import { UIComponent, View, Image, Text, ImageSource } from 'horizon/ui';
+import { TextureAsset } from 'horizon/core';
 
-export class BackgroundImageUI extends hzui.UIComponent<typeof BackgroundImageUI> {
+export class BackgroundImageUI extends UIComponent<typeof BackgroundImageUI> {
+    preStart() {}
+
+    start() {}
+
     initializeUI() {
-        return hzui.View({
+        return View({
             children: [
-                hzui.Image({
-                    source: hzui.ImageSource.fromTextureAsset(new hz.TextureAsset(BigInt(0))),
+                Image({
+                    source: ImageSource.fromTextureAsset(new TextureAsset(BigInt(0))),
                     style: {
                         width: '100%',
                         height: '100%',
                         position: 'absolute'
                     }
                 }),
-                hzui.Text({
+                Text({
                     text: "Hello World",
                     style: {
                         flex: 1,
@@ -28,4 +32,4 @@ export class BackgroundImageUI extends hzui.UIComponent<typeof BackgroundImageUI
         });
     }
 }
-hzui.UIComponent.register(BackgroundImageUI);
+UIComponent.register(BackgroundImageUI);

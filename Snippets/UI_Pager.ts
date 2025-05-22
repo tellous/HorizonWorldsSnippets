@@ -1,14 +1,14 @@
-import * as hzui from 'horizon/ui';
-import * as hz from 'horizon/core';
+import { UIComponent, View, Text, Pressable, Binding, UINode } from 'horizon/ui';
+import { Color } from 'horizon/core';
 
-export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
-  private showView = new hzui.Binding(false);
+export class PagerUI extends UIComponent<typeof PagerUI> {
+  private showView = new Binding(false);
 
   // Field variable for current page index
   private _currentPageIndex = 0;
 
   // Binding that reflects the field variable
-  private currentPageIndex = new hzui.Binding(this._currentPageIndex);
+  private currentPageIndex = new Binding(this._currentPageIndex);
 
   // Array of page content (could be replaced with actual content)
   private pages = [
@@ -33,10 +33,14 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
     }
   }
 
+  preStart() {}
+
+  start() {}
+
   initializeUI() {
-    return hzui.View({
+    return View({
       children: [
-        hzui.UINode.if(
+        UINode.if(
           this.showView,
           this.pagerView(),
           this.openButtonView()
@@ -49,10 +53,10 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
   }
 
   openButtonView() {
-    return hzui.View({
+    return View({
       children: [
-        hzui.Pressable({
-          children: hzui.Text({
+        Pressable({
+          children: Text({
             text: "Click here to open",
             style: {
               color: 'black',
@@ -64,7 +68,7 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
             this.showView.set(true);
           },
           style: {
-            backgroundColor: hz.Color.green,
+            backgroundColor: Color.green,
             height: 40,
             borderRadius: 5
           }
@@ -80,39 +84,39 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
 
   pagerView() {
     // Container for the pager
-    return hzui.View({
+    return View({
       style: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
       },
       children: [
-        hzui.View({
+        View({
         style: {
           width: '50%',
           height: '50%',
-          backgroundColor: hz.Color.white,
+          backgroundColor: Color.white,
           padding: 20,
         },
         children: [
           // Title section
-          hzui.View({
+          View({
             style: {
               marginBottom: 20,
               flexDirection: 'row',
               justifyContent: 'space-between',
             },
             children: [
-              hzui.Text({
+              Text({
                 text: "Pager Component",
                 style: {
                   fontSize: 24,
                   fontWeight: 'bold',
-                  color: hz.Color.black
+                  color: Color.black
                 }
               }),
-              hzui.Pressable({
-                children: hzui.Text({
+              Pressable({
+                children: Text({
                   text: "Close",
                   style: {
                     color: 'black',
@@ -124,7 +128,7 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
                   this.showView.set(false);
                 },
                 style: {
-                  backgroundColor: hz.Color.red,
+                  backgroundColor: Color.red,
                   width: 120,
                   height: 40,
                   borderRadius: 5
@@ -134,17 +138,17 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
           }),
 
           // Current page content
-          hzui.View({
+          View({
             style: {
               flex: 1,
-              backgroundColor: new hz.Color(0.95, 0.95, 0.95),
+              backgroundColor: new Color(0.95, 0.95, 0.95),
               padding: 20,
               borderRadius: 10,
               marginBottom: 20
             },
             children: [
               // Page title
-              hzui.Text({
+              Text({
                 text: this.currentPageIndex.derive((index) => {
                   return this.pages[index].title;
                 }),
@@ -152,24 +156,24 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
                   fontSize: 20,
                   fontWeight: 'bold',
                   marginBottom: 10,
-                  color: hz.Color.black
+                  color: Color.black
                 }
               }),
 
               // Page content
-              hzui.Text({
+              Text({
                 text: this.currentPageIndex.derive((index) => {
                   return this.pages[index].content;
                 }),
                 style: {
-                  color: hz.Color.black
+                  color: Color.black
                 }
               }),
             ]
           }),
 
           // Navigation controls
-          hzui.View({
+          View({
             style: {
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -177,8 +181,8 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
             },
             children: [
               // Previous button
-              hzui.Pressable({
-                children: hzui.Text({
+              Pressable({
+                children: Text({
                   text: "< Previous",
                   style: {
                     color: 'black',
@@ -191,7 +195,7 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
                 },
                 style: {
                   backgroundColor: this.currentPageIndex.derive((index) => {
-                    return index > 0 ? hz.Color.green : new hz.Color(0.8, 0.8, 0.8);
+                    return index > 0 ? Color.green : new Color(0.8, 0.8, 0.8);
                   }),
                   width: 120,
                   height: 40,
@@ -200,7 +204,7 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
               }),
 
               // Page indicator
-              hzui.Text({
+              Text({
                 text: this.currentPageIndex.derive((index) => {
                   return `${index + 1}/${this.pages.length}`;
                 }),
@@ -212,8 +216,8 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
               }),
 
               // Next button
-              hzui.Pressable({
-                children: hzui.Text({
+              Pressable({
+                children: Text({
                   text: "Next >",
                   style: {
                     color: 'black',
@@ -226,7 +230,7 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
                 },
                 style: {
                   backgroundColor: this.currentPageIndex.derive((index) => {
-                    return index < this.pages.length - 1 ? hz.Color.green : new hz.Color(0.8, 0.8, 0.8);
+                    return index < this.pages.length - 1 ? Color.green : new Color(0.8, 0.8, 0.8);
                   }),
                   width: 120,
                   height: 40,
@@ -241,4 +245,4 @@ export class PagerUI extends hzui.UIComponent<typeof PagerUI> {
     });
   }
 }
-hzui.UIComponent.register(PagerUI);
+UIComponent.register(PagerUI);

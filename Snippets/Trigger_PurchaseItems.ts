@@ -1,27 +1,30 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 import { InWorldPurchase } from 'horizon/core'; // Import InWorldPurchase
 
-class PurchaseItem extends hz.Component<typeof PurchaseItem> {
+class PurchaseItem extends Component<typeof PurchaseItem> {
   sku = 'Test'; // SKU for the item to be purchased. Change to use your SKU.
 
-  start() {
+  preStart() {
     // Connect to the player enter trigger event
     this.connectCodeBlockEvent(
       this.entity,
-      hz.CodeBlockEvents.OnPlayerEnterTrigger,
+      CodeBlockEvents.OnPlayerEnterTrigger,
       this.onPlayerEnter.bind(this)
     );
 
     // Connect to the purchase complete event
     this.connectCodeBlockEvent(
       this.entity, // Or use this.world if the event is global
-      hz.CodeBlockEvents.OnItemPurchaseComplete,
+      CodeBlockEvents.OnItemPurchaseComplete,
       this.onPurchaseComplete.bind(this)
     );
   }
 
+  // Blank start() method
+  start() {}
+
   // Handle the player entering the trigger
-  private onPlayerEnter(player: hz.Player) {
+  private onPlayerEnter(player: Player) {
     // Check if the SKU property is set
     if (this.sku && this.sku.length > 0) {
       // Launch the purchase flow for the player and the specified SKU
@@ -33,7 +36,7 @@ class PurchaseItem extends hz.Component<typeof PurchaseItem> {
   }
 
   // Handle the purchase completion event
-  private onPurchaseComplete(player: hz.Player, itemSku: string, success: boolean) {
+  private onPurchaseComplete(player: Player, itemSku: string, success: boolean) {
     // Check if the completed purchase matches the SKU of this component
     if (itemSku === this.sku) {
       if (success) {
@@ -46,4 +49,4 @@ class PurchaseItem extends hz.Component<typeof PurchaseItem> {
     }
   }
 }
-hz.Component.register(PurchaseItem);
+Component.register(PurchaseItem);

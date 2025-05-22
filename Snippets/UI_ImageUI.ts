@@ -1,14 +1,18 @@
-import * as hz from 'horizon/core';
-import * as hzui from 'horizon/ui';
+import { UIComponent, View, Image, ImageSource } from 'horizon/ui';
+import { TextureAsset } from 'horizon/core';
 
-export class ImageUI extends hzui.UIComponent<typeof ImageUI> {
+export class ImageUI extends UIComponent<typeof ImageUI> {
     private textureId = 0;
 
-    initializeUI() {
-        return hzui.View({
+    preStart() {}
+
+    start() {}
+
+    public initializeUI() {
+        return View({
             children: [
-                hzui.Image({
-                    source: hzui.ImageSource.fromTextureAsset(new hz.TextureAsset(BigInt(this.textureId)))
+                Image({
+                    source: ImageSource.fromTextureAsset(new TextureAsset(BigInt(this.textureId)))
                 })
             ],
             style: {
@@ -17,4 +21,4 @@ export class ImageUI extends hzui.UIComponent<typeof ImageUI> {
         });
     }
 }
-hzui.UIComponent.register(ImageUI);
+UIComponent.register(ImageUI);

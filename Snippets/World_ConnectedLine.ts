@@ -1,27 +1,25 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, Entity, Vec3, Quaternion, World } from 'horizon/core';
 
-class ConnectedLine extends hz.Component<typeof ConnectedLine> {
+class ConnectedLine extends Component<typeof ConnectedLine> {
     static propsDefinition = {
-        line: { type: hz.PropTypes.Entity }
+        line: { type: PropTypes.Entity }
     };
 
-    private line?: hz.Entity;
+    private line?: Entity;
+    private startPosition: Vec3 = Vec3.zero;
+    private lineScale: Vec3 = Vec3.zero;
 
-    private startPosition: hz.Vec3 = hz.Vec3.zero;
-
-    private lineScale: hz.Vec3 = hz.Vec3.zero;
-
-    start() {
+    preStart() {
         this.line = this.props.line;
-        this.lineScale = this.line?.scale.get() ?? hz.Vec3.one;
-
-        this.startPosition = this.line?.position.get() ?? hz.Vec3.zero;
-
+        this.lineScale = this.line?.scale.get() ?? Vec3.one;
+        this.startPosition = this.line?.position.get() ?? Vec3.zero;
         this.connectLocalBroadcastEvent(
-            hz.World.onUpdate,
+            World.onUpdate,
             this.onUpdate.bind(this)
         );
     }
+
+    start() {}
 
     onUpdate() {
         const endPosition = this.entity.position.get();
@@ -30,12 +28,13 @@ class ConnectedLine extends hz.Component<typeof ConnectedLine> {
 
         //Assumes your line object is 1 meter long on Z axis
         const lineLength = this.startPosition.distance(endPosition);
-        const newScale = new hz.Vec3(this.lineScale.x, this.lineScale.y, lineLength);
+        const newScale = new Vec3(this.lineScale.x, this.lineScale.y, lineLength);
         this.line?.scale.set(newScale);
 
         const direction = endPosition.sub(this.startPosition).normalize();
-        const rotation = hz.Quaternion.lookRotation(direction, hz.Vec3.up);
+        const rotation = Quaternion.lookRotation(direction, Vec3.up);
         this.line?.rotation.set(rotation);
     }
 }
-hz.Component.register(ConnectedLine);
+
+Component.register(ConnectedLine);

@@ -1,18 +1,22 @@
-import * as hzui from 'horizon/ui';
-import * as hz from 'horizon/core';
+import { UIComponent, Pressable, Text, Binding } from 'horizon/ui';
+import { Color, Player } from 'horizon/core';
 
-export class ButtonUI extends hzui.UIComponent<typeof ButtonUI> {
-    private hoverColor = hz.Color.white;
+export class ButtonUI extends UIComponent<typeof ButtonUI> {
+    private hoverColor = Color.white;
 
-    private pressedColor = new hz.Color(0, 1, 1);
+    private pressedColor = new Color(0, 1, 1);
 
-    private defaultColor = hz.Color.green;
+    private defaultColor = Color.green;
 
-    private buttonColorBinding = new hzui.Binding(this.defaultColor);
+    private buttonColorBinding = new Binding(this.defaultColor);
+
+    preStart() {}
+
+    start() {}
 
     initializeUI() {
-        return hzui.Pressable({
-            children: hzui.Text({
+        return Pressable({
+            children: Text({
                 text: "Click Me",
                 style: {
                     color: 'black',
@@ -22,7 +26,7 @@ export class ButtonUI extends hzui.UIComponent<typeof ButtonUI> {
             }),
             onPress: () => { this.buttonColorBinding.set(this.pressedColor) },
             onRelease: () => { this.buttonColorBinding.set(this.defaultColor) },
-            onClick: (player: hz.Player) => { console.log(`Button clicked by ${player.name.get()}`); },
+            onClick: (player: Player) => { console.log(`Button clicked by ${player.name.get()}`); },
             onEnter: () => { this.buttonColorBinding.set(this.hoverColor) },
             onExit: () => { this.buttonColorBinding.set(this.defaultColor) },
             style: {
@@ -33,4 +37,4 @@ export class ButtonUI extends hzui.UIComponent<typeof ButtonUI> {
         });
     }
 }
-hzui.UIComponent.register(ButtonUI);
+UIComponent.register(ButtonUI);

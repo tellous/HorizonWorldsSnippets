@@ -1,31 +1,35 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
-class PlayerDetectionZone extends hz.Component<typeof PlayerDetectionZone> {
-    private playersInZone: hz.Player[] = [];
+class PlayerDetectionZone extends Component<typeof PlayerDetectionZone> {
+    private playersInZone: Player[] = [];
     
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnter.bind(this)
         );
         
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerExitTrigger,
+            CodeBlockEvents.OnPlayerExitTrigger,
             this.onPlayerExit.bind(this)
         );
     }
     
-    private onPlayerEnter(player: hz.Player) {
+    start() {
+        // Intentionally left blank
+    }
+    
+    private onPlayerEnter(player: Player) {
         this.playersInZone.push(player);
         console.log(`Players in zone: ${this.playersInZone.length}`);
     }
     
-    private onPlayerExit(player: hz.Player) {
+    private onPlayerExit(player: Player) {
         this.playersInZone = this.playersInZone.filter(p => p.id !== player.id);
         console.log(`Players in zone: ${this.playersInZone.length}`);
     }
 }
 
-hz.Component.register(PlayerDetectionZone);
+Component.register(PlayerDetectionZone);

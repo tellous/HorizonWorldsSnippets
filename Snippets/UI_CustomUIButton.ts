@@ -1,13 +1,13 @@
-import * as hz from 'horizon/core';
-import * as hzui from 'horizon/ui';
+import { PlayerControls, Player } from 'horizon/core';
+import { UIComponent, Binding, View, Pressable, Text } from 'horizon/ui';
 
 // See World_OwnershipManagement to manage ownership 
 // This script must be set to "Local" execution mode in the editor.
 // Custom UI must be set to "Screen Overlay" and "Interactive, Non blocking" in the editor
-class CustomUIButton extends hzui.UIComponent<typeof CustomUIButton> {
-    private owner?: hz.Player;
+class CustomUIButton extends UIComponent<typeof CustomUIButton> {
+    private owner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
     private hoverColor = "white";
 
@@ -15,9 +15,9 @@ class CustomUIButton extends hzui.UIComponent<typeof CustomUIButton> {
 
     private defaultColor = "gray";
 
-    private buttonColorBinding = new hzui.Binding(this.defaultColor);
+    private buttonColorBinding = new Binding(this.defaultColor);
 
-    start() {
+    preStart() {
         // The player will own the entity when it is grabbed
         this.owner = this.entity.owner.get();
 
@@ -30,15 +30,17 @@ class CustomUIButton extends hzui.UIComponent<typeof CustomUIButton> {
         }
 
         // Removes some of the default buttons from the UI
-        hz.PlayerControls.disableSystemControls();
+        PlayerControls.disableSystemControls();
     }
 
+    start() {}
+
     initializeUI() {
-        return hzui.View({
+        return View({
             children: [
-                hzui.Pressable({
+                Pressable({
                     children: [
-                        hzui.Text({
+                        Text({
                             text: "Press me",
                             style: {
                                 fontSize: 12
@@ -72,4 +74,4 @@ class CustomUIButton extends hzui.UIComponent<typeof CustomUIButton> {
     }
 }
 
-hzui.UIComponent.register(CustomUIButton);
+UIComponent.register(CustomUIButton);

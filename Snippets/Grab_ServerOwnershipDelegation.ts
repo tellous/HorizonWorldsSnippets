@@ -1,45 +1,47 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, CodeBlockEvents, Entity, Player } from 'horizon/core';
 
-class ServerOwnershipDelegation extends hz.Component<typeof ServerOwnershipDelegation> {
+class ServerOwnershipDelegation extends Component<typeof ServerOwnershipDelegation> {
     static propsDefinition = {
-        child: { type: hz.PropTypes.Entity },
+        child: { type: PropTypes.Entity },
     };
 
-    private child?: hz.Entity;
+    private child?: Entity;
 
-    private childOwner?: hz.Player;
+    private childOwner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
-    start() {
+    preStart() {
         this.serverPlayer = this.world.getServerPlayer();
 
         this.child = this.props.child;
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerExitWorld.bind(this)
         );
     }
 
-    private onGrab(isRightHand: boolean, player: hz.Player) {
+    start() {}
+
+    private onGrab(isRightHand: boolean, player: Player) {
         this.childOwner = this.child?.owner.get();
 
         this.child?.owner.set(this.childOwner!);
     }
 
-    private onPlayerExitWorld(player: hz.Player) {
+    private onPlayerExitWorld(player: Player) {
         if (this.childOwner === player) {
             this.child?.owner.set(this.serverPlayer!);
         }
     }
 }
 
-hz.Component.register(ServerOwnershipDelegation);
+Component.register(ServerOwnershipDelegation);

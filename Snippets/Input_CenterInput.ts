@@ -1,13 +1,13 @@
-import * as hz from 'horizon/core';
+import { Component, Player, PlayerControls, PlayerInputAction, ButtonIcon, ButtonPlacement } from 'horizon/core';
 
 // See World_OwnershipManagement to manage ownership 
 // This script must be set to "Local" execution mode in the editor.
-class CenterInput extends hz.Component<typeof CenterInput> {
-    private owner?: hz.Player;
+class CenterInput extends Component<typeof CenterInput> {
+    private owner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
-    start() {
+    preStart() {
         // The player will own the entity when it is grabbed
         this.owner = this.entity.owner.get();
 
@@ -20,11 +20,11 @@ class CenterInput extends hz.Component<typeof CenterInput> {
         }
 
         // Register a callback for the X button in VR, T key in Desktop
-        const input = hz.PlayerControls.connectLocalInput(hz.PlayerInputAction.LeftPrimary, hz.ButtonIcon.None, this,{
-            preferredButtonPlacement: hz.ButtonPlacement.Default,
+        const input = PlayerControls.connectLocalInput(PlayerInputAction.LeftPrimary, ButtonIcon.None, this,{
+            preferredButtonPlacement: ButtonPlacement.Default,
         });
 
-        input.registerCallback((action: hz.PlayerInputAction, pressed: boolean) => {
+        input.registerCallback((action: PlayerInputAction, pressed: boolean) => {
             if (pressed) {
                 console.log("Button pressed");
             } else {
@@ -32,6 +32,10 @@ class CenterInput extends hz.Component<typeof CenterInput> {
             }
         });
     }
+
+    start() {
+        // Intentionally left blank
+    }
 }
 
-hz.Component.register(CenterInput);
+Component.register(CenterInput);

@@ -1,18 +1,20 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents } from 'horizon/core';
 
-class ControllerTriggerPressed extends hz.Component<typeof ControllerTriggerPressed> {
-    start() {
+class ControllerTriggerPressed extends Component<typeof ControllerTriggerPressed> {
+    preStart() {
         // Set up button click handler
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnIndexTriggerDown,
+            CodeBlockEvents.OnIndexTriggerDown,
             this.handlePressed.bind(this)
         );
     }
+
+    start() {}
 
     private handlePressed() {
         console.log('Button was clicked!');
     }
 }
 
-hz.Component.register(ControllerTriggerPressed);
+Component.register(ControllerTriggerPressed);

@@ -1,15 +1,17 @@
-import * as hz from 'horizon/core';
+import { Component, Player } from "horizon/core";
 
-class LocalComponent extends hz.Component<typeof LocalComponent> {
-    owner?: hz.Player;
-    serverPlayer?: hz.Player;
+class LocalComponent extends Component<typeof LocalComponent> {
+    owner?: Player;
+    serverPlayer?: Player;
 
-    start() {
+    preStart() {
         this.owner = this.entity.owner.get();
         this.serverPlayer = this.world.getServerPlayer();
         if (this.owner === this.serverPlayer) {
             return;
         }
     }
+
+    start(){}
 }
-hz.Component.register(LocalComponent);
+Component.register(LocalComponent);

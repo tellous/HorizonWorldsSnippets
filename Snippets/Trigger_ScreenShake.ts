@@ -1,12 +1,12 @@
-import * as hz from 'horizon/core';
-import LocalCamera, * as hzcam from 'horizon/camera';
+import { Component, Player, Vec3, CodeBlockEvents } from 'horizon/core';
+import LocalCamera, { Easing }  from 'horizon/camera';
 
 // See World_OwnershipManagement to manage ownership 
 // This script must be set to "Local" execution mode in the editor.
-class ScreenShake extends hz.Component<typeof ScreenShake> {
-    private owner?: hz.Player;
+class ScreenShake extends Component<typeof ScreenShake> {
+    private owner?: Player;
 
-    private serverPlayer?: hz.Player;
+    private serverPlayer?: Player;
 
     private isShaking: boolean = false;
 
@@ -16,7 +16,7 @@ class ScreenShake extends hz.Component<typeof ScreenShake> {
 
     private oscillations: number = 10;
 
-    start() {
+    preStart() {
         // The player will own the entity when it is grabbed
         this.owner = this.entity.owner.get();
 
@@ -28,7 +28,11 @@ class ScreenShake extends hz.Component<typeof ScreenShake> {
             return;
         }
 
-        this.connectCodeBlockEvent(this.entity, hz.CodeBlockEvents.OnPlayerEnterTrigger, this.onPlayerEnterTrigger.bind(this));
+        this.connectCodeBlockEvent(this.entity, CodeBlockEvents.OnPlayerEnterTrigger, this.onPlayerEnterTrigger.bind(this));
+    }
+
+    start() {
+        // Intentionally left blank
     }
 
     private onPlayerEnterTrigger() {
@@ -58,7 +62,7 @@ class ScreenShake extends hz.Component<typeof ScreenShake> {
             const offsetZ = (Math.random() * 2 - 1) * currentIntensity;
 
             // Apply the offset to the original position
-            const newPosition = new hz.Vec3(
+            const newPosition = new Vec3(
                 originalPosition.x + offsetX,
                 originalPosition.y + offsetY,
                 originalPosition.z + offsetZ
@@ -69,7 +73,7 @@ class ScreenShake extends hz.Component<typeof ScreenShake> {
                 position: newPosition,
                 rotation: LocalCamera.rotation.get(),
                 duration: oscillationDuration,
-                easing: hzcam.Easing.EaseInOut
+                easing: Easing.EaseInOut
             });
 
             // Wait for half the oscillation duration
@@ -87,4 +91,4 @@ class ScreenShake extends hz.Component<typeof ScreenShake> {
     }
 }
 
-hz.Component.register(ScreenShake);
+Component.register(ScreenShake);

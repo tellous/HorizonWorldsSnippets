@@ -1,23 +1,25 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
 type MyPpvData = {
     playerName: string;
     count: number;
 }
 
-class SaveToObjectToPpv extends hz.Component<typeof SaveToObjectToPpv> {
+class SaveToObjectToPpv extends Component<typeof SaveToObjectToPpv> {
     //Assumes you have a PPV group in your world called "Test" with an object variable called "data" 
     private ppvName = "Test:data"
 
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterWorld.bind(this)
         );
     }
 
-    private onPlayerEnterWorld(player: hz.Player) {
+    start() {}
+
+    private onPlayerEnterWorld(player: Player) {
         // Get the data
         let data = this.world.persistentStorage.getPlayerVariable<MyPpvData>(
             player,
@@ -46,4 +48,4 @@ class SaveToObjectToPpv extends hz.Component<typeof SaveToObjectToPpv> {
     }
 }
 
-hz.Component.register(SaveToObjectToPpv);
+Component.register(SaveToObjectToPpv);

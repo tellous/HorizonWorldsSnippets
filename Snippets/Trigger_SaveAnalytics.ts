@@ -1,43 +1,47 @@
-import * as hzanalytics from 'horizon/analytics';
-import * as hz from 'horizon/core';
+import { Component, Player, CodeBlockEvents } from 'horizon/core';
+import { Turbo, TurboDefaultSettings, AreaEnterPayload, AreaExitPayload, TurboEvents } from 'horizon/analytics';
 
-class SaveAreaAnalytics extends hz.Component<typeof SaveAreaAnalytics> {
-    start() {
-        hzanalytics.Turbo.register(this, hzanalytics.TurboDefaultSettings);
+class SaveAreaAnalytics extends Component<typeof SaveAreaAnalytics> {
+    preStart() {
+        Turbo.register(this, TurboDefaultSettings);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnterTrigger.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerExitTrigger,
+            CodeBlockEvents.OnPlayerExitTrigger,
             this.onPlayerExitTrigger.bind(this)
         );
     }
 
-    onPlayerEnterTrigger(player: hz.Player) {
-        // Save the analytics data when the player enters the trigger
-        const payload: hzanalytics.AreaEnterPayload = {
-            actionArea: 'Lobby',
-            actionAreaIsLobbySection: true,
-            actionAreaIsPlayerReadyZone: true,
-            player: player
-        };
-        hzanalytics.Turbo.send(hzanalytics.TurboEvents.OnAreaEnter, payload);
+    start() {
+        // Intentionally left blank
     }
 
-    onPlayerExitTrigger(player: hz.Player) {
-        // Save the analytics data when the player exits the trigger
-        const payload: hzanalytics.AreaExitPayload = {
+    onPlayerEnterTrigger(player: Player) {
+        // Save the analytics data when the player enters the trigger
+        const payload: AreaEnterPayload = {
             actionArea: 'Lobby',
             actionAreaIsLobbySection: true,
             actionAreaIsPlayerReadyZone: true,
             player: player
         };
-        hzanalytics.Turbo.send(hzanalytics.TurboEvents.OnAreaExit, payload);
+        Turbo.send(TurboEvents.OnAreaEnter, payload);
+    }
+
+    onPlayerExitTrigger(player: Player) {
+        // Save the analytics data when the player exits the trigger
+        const payload: AreaExitPayload = {
+            actionArea: 'Lobby',
+            actionAreaIsLobbySection: true,
+            actionAreaIsPlayerReadyZone: true,
+            player: player
+        };
+        Turbo.send(TurboEvents.OnAreaExit, payload);
     }
 }
-hz.Component.register(SaveAreaAnalytics);
+Component.register(SaveAreaAnalytics);

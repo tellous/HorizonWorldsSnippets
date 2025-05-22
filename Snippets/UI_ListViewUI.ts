@@ -1,8 +1,8 @@
-import * as hzui from 'horizon/ui';
-import * as hz from 'horizon/core';
+import { UIComponent, View, DynamicList, Text, Binding } from 'horizon/ui';
+import { Color } from 'horizon/core';
 
-export class ListViewUI extends hzui.UIComponent<typeof ListViewUI> {
-    private items = new hzui.Binding([
+export class ListViewUI extends UIComponent<typeof ListViewUI> {
+    private items = new Binding([
         { name: "Item 1" },
         { name: "Item 2" },
         { name: "Item 3" },
@@ -10,17 +10,21 @@ export class ListViewUI extends hzui.UIComponent<typeof ListViewUI> {
         { name: "Item 5" }
     ]);
 
+    preStart() {}
+
+    start() {}
+
     initializeUI() {
-        return hzui.View({
+        return View({
             children: [
-                hzui.DynamicList({
+                DynamicList({
                     data: this.items,
-                    renderItem: (item) => hzui.View({
+                    renderItem: (item) => View({
                         style: {
-                            backgroundColor: hz.Color.red,
+                            backgroundColor: Color.red,
                             margin: 5,
                         },
-                        children: hzui.Text({
+                        children: Text({
                             text: item.name
                         })
                     }),
@@ -35,4 +39,5 @@ export class ListViewUI extends hzui.UIComponent<typeof ListViewUI> {
         });
     }
 }
-hzui.UIComponent.register(ListViewUI);
+
+UIComponent.register(ListViewUI);

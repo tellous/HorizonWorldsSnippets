@@ -1,21 +1,25 @@
-import * as hz from 'horizon/core';
+import { Component, MeshEntity, Color } from 'horizon/core';
 
-class MeshTint extends hz.Component<typeof MeshTint> {
+class MeshTint extends Component<typeof MeshTint> {
 
-    private mesh?: hz.MeshEntity;
+    private mesh?: MeshEntity;
 
-    start() {
-        this.mesh = this.entity.as(hz.MeshEntity);
+    preStart() {
+        this.mesh = this.entity.as(MeshEntity);
 
         // Set up the mesh to be tinted
-        this.mesh.style.tintColor.set(hz.Color.red);
+        this.mesh.style.tintColor.set(Color.red);
         this.mesh.style.tintStrength.set(1);
 
         // Set up the event to change the tint color
         this.async.setTimeout(() => {
-            this.mesh?.style.tintColor.set(hz.Color.fromHex("#AAFF00"));
+            this.mesh?.style.tintColor.set(Color.fromHex("#AAFF00"));
         }, 3000);
+    }
+
+    start() {
+        // Intentionally left blank
     }
 }
 
-hz.Component.register(MeshTint);
+Component.register(MeshTint);

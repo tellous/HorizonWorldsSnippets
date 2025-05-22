@@ -1,20 +1,21 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
-class PlayerFinder extends hz.Component<typeof PlayerFinder> {
-    start() {
+class PlayerFinder extends Component<typeof PlayerFinder> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterWorld.bind(this)
-        )
+        );
     }
 
-    onPlayerEnterWorld(player: hz.Player) {
+    start() {}
+
+    onPlayerEnterWorld(player: Player) {
         const allPlayers = this.world.getPlayers();
-        
         const playerNames = allPlayers.map(p => p.name.get());
         console.log(`Players in the world: ${playerNames.join(', ')}`);
     }
 }
 
-hz.Component.register(PlayerFinder);
+Component.register(PlayerFinder);

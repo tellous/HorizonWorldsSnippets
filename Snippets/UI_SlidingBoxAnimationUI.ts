@@ -1,25 +1,25 @@
-import * as hzui from 'horizon/ui';
+import { UIComponent, AnimatedBinding, Animation, Easing, View } from 'horizon/ui';
 
-export class SlidingBoxAnimationUI extends hzui.UIComponent<typeof SlidingBoxAnimationUI> {
-    private animatedValue = new hzui.AnimatedBinding(0);
+export class SlidingBoxAnimationUI extends UIComponent<typeof SlidingBoxAnimationUI> {
+    private animatedValue = new AnimatedBinding(0);
 
-    start() {
+    preStart() {
         // Start the animation
         this.animateBox();
     }
 
     animateBox() {
         this.animatedValue.set(
-            hzui.Animation.timing(1, {
+            Animation.timing(1, {
                 duration: 1000,
-                easing: hzui.Easing.inOut(hzui.Easing.ease)
+                easing: Easing.inOut(Easing.ease)
             }),
             () => {
                 // Reset and repeat
                 this.animatedValue.set(
-                    hzui.Animation.timing(0, {
+                    Animation.timing(0, {
                         duration: 1000,
-                        easing: hzui.Easing.inOut(hzui.Easing.ease)
+                        easing: Easing.inOut(Easing.ease)
                     }),
                     () => this.animateBox()
                 );
@@ -28,9 +28,9 @@ export class SlidingBoxAnimationUI extends hzui.UIComponent<typeof SlidingBoxAni
     }
 
     initializeUI() {
-        return hzui.View({
+        return View({
             children: [
-                hzui.View({
+                View({
                     style: {
                         width: 100,
                         height: 100,
@@ -47,4 +47,4 @@ export class SlidingBoxAnimationUI extends hzui.UIComponent<typeof SlidingBoxAni
         });
     }
 }
-hzui.UIComponent.register(SlidingBoxAnimationUI);
+UIComponent.register(SlidingBoxAnimationUI);

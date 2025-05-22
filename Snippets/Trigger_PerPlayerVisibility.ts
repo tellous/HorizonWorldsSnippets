@@ -1,15 +1,15 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, CodeBlockEvents, PlayerVisibilityMode, Entity, Player } from 'horizon/core';
 
-class PerPlayerVisibility extends hz.Component<typeof PerPlayerVisibility> {
+class PerPlayerVisibility extends Component<typeof PerPlayerVisibility> {
     static propsDefinition = {
-        entityToShow: { type: hz.PropTypes.Entity }
+        entityToShow: { type: PropTypes.Entity }
     };
 
-    private entityToShow?: hz.Entity;
+    private entityToShow?: Entity;
 
-    private playersThatCanSee: hz.Player[] = [];
+    private playersThatCanSee: Player[] = [];
 
-    start() {
+    preStart() {
         this.entityToShow = this.props.entityToShow;
 
         //Hide from everyone
@@ -17,29 +17,31 @@ class PerPlayerVisibility extends hz.Component<typeof PerPlayerVisibility> {
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.OnPlayerEnterTrigger.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerExitTrigger,
+            CodeBlockEvents.OnPlayerExitTrigger,
             this.OnPlayerExitTrigger.bind(this)
         );
     }
 
-    private OnPlayerEnterTrigger(player: hz.Player) {
+    start() {}
+
+    private OnPlayerEnterTrigger(player: Player) {
         this.playersThatCanSee.push(player);
 
         // Show the entity to the player
-        this.entityToShow?.setVisibilityForPlayers(this.playersThatCanSee, hz.PlayerVisibilityMode.VisibleTo);
+        this.entityToShow?.setVisibilityForPlayers(this.playersThatCanSee, PlayerVisibilityMode.VisibleTo);
     }
 
-    private OnPlayerExitTrigger(player: hz.Player) {
+    private OnPlayerExitTrigger(player: Player) {
         this.playersThatCanSee = this.playersThatCanSee.filter(p => p !== player);
 
-        this.entityToShow?.setVisibilityForPlayers(this.playersThatCanSee, hz.PlayerVisibilityMode.VisibleTo);
+        this.entityToShow?.setVisibilityForPlayers(this.playersThatCanSee, PlayerVisibilityMode.VisibleTo);
     }
 }
 
-hz.Component.register(PerPlayerVisibility);
+Component.register(PerPlayerVisibility);

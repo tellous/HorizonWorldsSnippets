@@ -1,25 +1,27 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, CodeBlockEvents, TextGizmo, Player } from 'horizon/core';
 
-class TextDisplay extends hz.Component<typeof TextDisplay> {
+class TextDisplay extends Component<typeof TextDisplay> {
     static propsDefinition = {
-        text: { type: hz.PropTypes.Entity }
+        text: { type: PropTypes.Entity }
     };
 
-    textGizmo?: hz.TextGizmo;
+    textGizmo?: TextGizmo;
 
-    start() {
-        this.textGizmo = this.props.text?.as(hz.TextGizmo);
+    preStart() {
+        this.textGizmo = this.props.text?.as(TextGizmo);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterTrigger.bind(this)
         );
     }
 
-    private onPlayerEnterTrigger(player: hz.Player) {
+    start() {}
+
+    private onPlayerEnterTrigger(player: Player) {
         this.textGizmo?.text.set("<color=red>Hello</color> <b>World</b>!");
     }
 }
 
-hz.Component.register(TextDisplay);
+Component.register(TextDisplay);

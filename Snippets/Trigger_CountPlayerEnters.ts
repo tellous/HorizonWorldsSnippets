@@ -1,14 +1,18 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents } from 'horizon/core';
 
-class NetworkSync extends hz.Component<typeof NetworkSync> {
+class NetworkSync extends Component<typeof NetworkSync> {
     private counter = 0;
     
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnterTrigger.bind(this)
         );
+    }
+
+    start() {
+        // Intentionally left blank
     }
     
     onPlayerEnterTrigger() {
@@ -17,4 +21,4 @@ class NetworkSync extends hz.Component<typeof NetworkSync> {
     }
 }
 
-hz.Component.register(NetworkSync);
+Component.register(NetworkSync);

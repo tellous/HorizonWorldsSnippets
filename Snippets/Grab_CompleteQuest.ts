@@ -1,18 +1,20 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
-class CompleteQuest extends hz.Component<typeof CompleteQuest> {
-    start() {
+class CompleteQuest extends Component<typeof CompleteQuest> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity, 
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
     }
 
-    onGrab(isRightHand: boolean, player: hz.Player) {
+    onGrab(isRightHand: boolean, player: Player) {
         //Asuming you have a quest called "MyQuest"
         player.setAchievementComplete("MyQuest", true);
     }
+
+    start() {}
 }
 
-hz.Component.register(CompleteQuest);
+Component.register(CompleteQuest);

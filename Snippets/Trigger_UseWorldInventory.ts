@@ -1,16 +1,16 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, WorldInventory, CodeBlockEvents, Entity, Player } from 'horizon/core';
 
-class UseWorldInventory extends hz.Component<typeof UseWorldInventory> {
+class UseWorldInventory extends Component<typeof UseWorldInventory> {
     static propsDefinition= {
-        earnTrigger: { type: hz.PropTypes.Entity },
-        consumeTrigger: { type: hz.PropTypes.Entity }
+        earnTrigger: { type: PropTypes.Entity },
+        consumeTrigger: { type: PropTypes.Entity }
     };
 
     //This trigger will grant an item to the player
-    earnTrigger?: hz.Entity;
+    earnTrigger?: Entity;
 
     //This trigger will consume an item from the player
-    consumeTrigger?: hz.Entity;
+    consumeTrigger?: Entity;
 
     iwpId = 'myIwp'; // Replace with your actual In-World Purchase Item ID
 
@@ -18,17 +18,21 @@ class UseWorldInventory extends hz.Component<typeof UseWorldInventory> {
 
     isConsuming = false;
 
-    start() {
+    preStart() {
         this.earnTrigger = this.props.earnTrigger;
 
         this.consumeTrigger = this.props.consumeTrigger;
 
-        this.earnTrigger && this.connectCodeBlockEvent(this.earnTrigger, hz.CodeBlockEvents.OnPlayerEnterTrigger, this.onEnterEarnTrigger.bind(this));
+        this.earnTrigger && this.connectCodeBlockEvent(this.earnTrigger, CodeBlockEvents.OnPlayerEnterTrigger, this.onEnterEarnTrigger.bind(this));
 
-        this.consumeTrigger && this.connectCodeBlockEvent(this.consumeTrigger, hz.CodeBlockEvents.OnPlayerEnterTrigger, this.onEnterConsumeTrigger.bind(this));
+        this.consumeTrigger && this.connectCodeBlockEvent(this.consumeTrigger, CodeBlockEvents.OnPlayerEnterTrigger, this.onEnterConsumeTrigger.bind(this));
     }
 
-    onEnterEarnTrigger(player: hz.Player) {
+    start() {
+        // Intentionally left blank
+    }
+
+    onEnterEarnTrigger(player: Player) {
         // Check if the player is already in the process of earning an item
         if (this.isEarning) {
             console.log('Already processing an earn request. Please wait.');
@@ -38,14 +42,14 @@ class UseWorldInventory extends hz.Component<typeof UseWorldInventory> {
         this.isEarning = true;
 
         // Count how many items the player has in their inventory
-        hz.WorldInventory.getPlayerEntitlementQuantity(player, this.iwpId)
+        WorldInventory.getPlayerEntitlementQuantity(player, this.iwpId)
             .then((count) => {
                 console.log(`Player had ${count} items in their inventory.`);
                 
                 // As an example, we will max out the player's inventory to 5 items
                 if (count <= 5) {
                     // Add the item to the player's inventory
-                    hz.WorldInventory.grantItemToPlayer(player, this.iwpId);
+                    WorldInventory.grantItemToPlayer(player, this.iwpId);
                     console.log('Item granted to player inventory.');
                 }
             })
@@ -57,7 +61,7 @@ class UseWorldInventory extends hz.Component<typeof UseWorldInventory> {
             });
     }
 
-    onEnterConsumeTrigger(player: hz.Player) {
+    onEnterConsumeTrigger(player: Player) {
         // Check if the player is already in the process of consuming an item
         if (this.isConsuming) {
             console.log('Already processing a consume request. Please wait.');
@@ -67,11 +71,11 @@ class UseWorldInventory extends hz.Component<typeof UseWorldInventory> {
         this.isConsuming = true;
 
         // Check if the player has the item in their inventory
-        hz.WorldInventory.doesPlayerHaveEntitlement(player, this.iwpId)
+        WorldInventory.doesPlayerHaveEntitlement(player, this.iwpId)
             .then((hasItem) => {
                 if (hasItem) {
                     // Remove the item from the player's inventory
-                    hz.WorldInventory.consumeItemForPlayer(player, this.iwpId);
+                    WorldInventory.consumeItemForPlayer(player, this.iwpId);
                     console.log('Item consumed from player inventory.');
                 } else {
                     console.log('Player does not have the item in their inventory.');
@@ -86,4 +90,4 @@ class UseWorldInventory extends hz.Component<typeof UseWorldInventory> {
     }
 
 }
-hz.Component.register(UseWorldInventory);
+Component.register(UseWorldInventory);

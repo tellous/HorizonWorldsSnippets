@@ -1,18 +1,20 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, Player } from 'horizon/core';
 
-class SaveToPpv extends hz.Component<typeof SaveToPpv> {
+class SaveToPpv extends Component<typeof SaveToPpv> {
     //Assumes you have a PPV group in your world called "Test" with a number variable called "count" 
     private ppvName = "Test:count"
 
-    start() {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterWorld,
+            CodeBlockEvents.OnPlayerEnterWorld,
             this.onPlayerEnterWorld.bind(this)
         );
     }
 
-    private onPlayerEnterWorld(player: hz.Player) {
+    start() {}
+
+    private onPlayerEnterWorld(player: Player) {
         // Get the count
         let count = this.world.persistentStorage.getPlayerVariable(
             player,
@@ -33,4 +35,4 @@ class SaveToPpv extends hz.Component<typeof SaveToPpv> {
     }
 }
 
-hz.Component.register(SaveToPpv);
+Component.register(SaveToPpv);

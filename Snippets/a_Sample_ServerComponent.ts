@@ -1,7 +1,10 @@
-import * as hz from 'horizon/core';
+import { Component } from "horizon/core";
 
-class ServerComponent extends hz.Component<typeof ServerComponent> {
+class ServerComponent extends Component<typeof ServerComponent> {
+    preStart() {
+    }
+
     start() {
     }
 }
-hz.Component.register(ServerComponent);
+Component.register(ServerComponent);

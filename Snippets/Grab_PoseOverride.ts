@@ -1,28 +1,30 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents, AvatarGripPose, Player } from 'horizon/core';
 
 // This only affects web and mobile.
-class PoseOverride extends hz.Component<typeof PoseOverride> {
-    start() {
+class PoseOverride extends Component<typeof PoseOverride> {
+    start() {}
+
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
     }
 
-    private onGrab(isRightHand: boolean, player: hz.Player) {
-        player.setAvatarGripPoseOverride(hz.AvatarGripPose.Sword);
+    private onGrab(isRightHand: boolean, player: Player) {
+        player.setAvatarGripPoseOverride(AvatarGripPose.Sword);
     }
 
-    private onRelease(player: hz.Player) {
+    private onRelease(player: Player) {
         player.clearAvatarGripPoseOverride();
     }
 }
 
-hz.Component.register(PoseOverride);
+Component.register(PoseOverride);

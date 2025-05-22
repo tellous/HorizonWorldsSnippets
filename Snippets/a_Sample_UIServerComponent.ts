@@ -1,12 +1,12 @@
-import * as hzui from 'horizon/ui';
+import { UIComponent, View } from 'horizon/ui';
 
-class UIServerComponent extends hzui.UIComponent<typeof UIServerComponent> {
+class UIServerComponent extends UIComponent<typeof UIServerComponent> {
     initializeUI() {
-        return hzui.View({
+        return View({
             style: {
                 flex: 1
             }
         })
     }
 }
-hzui.UIComponent.register(UIServerComponent);
+UIComponent.register(UIServerComponent);

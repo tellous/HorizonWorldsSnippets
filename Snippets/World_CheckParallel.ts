@@ -1,29 +1,30 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, Vec3, World } from 'horizon/core';
 
-class CheckParallel extends hz.Component<typeof CheckParallel> {
+class CheckParallel extends Component<typeof CheckParallel> {
     static propsDefinition = {
-        entity: { type: hz.PropTypes.Entity }
+        entity: { type: PropTypes.Entity }
     };
 
-    start() {
+    preStart() {
         this.connectLocalBroadcastEvent(
-            hz.World.onUpdate,
+            World.onUpdate,
             this.onUpdate.bind(this)
         );
     }
 
-    onUpdate() {    
-          // Dot product (scalar)
-          const dot = this.entity.up.get().dot(hz.Vec3.up);
+    start() {}
 
-          if (dot === 0) {
-              console.log("Entity Up is perpendicular with World Up");
-          } else if (dot === 1) {
-              console.log("Entity Up is parallel with World Up");
-          } else if(dot === -1) {
-              console.log("Entity Up is parallel with World Down");
-          }
+    onUpdate() {
+        // Dot product (scalar)
+        const dot = this.entity.up.get().dot(Vec3.up);
+        if (dot === 0) {
+            console.log("Entity Up is perpendicular with World Up");
+        } else if (dot === 1) {
+            console.log("Entity Up is parallel with World Up");
+        } else if (dot === -1) {
+            console.log("Entity Up is parallel with World Down");
+        }
     }
 }
 
-hz.Component.register(CheckParallel);
+Component.register(CheckParallel);

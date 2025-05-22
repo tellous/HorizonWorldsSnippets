@@ -1,15 +1,19 @@
-import * as hzui from 'horizon/ui';
+import { UIComponent, View, Text } from 'horizon/ui';
 
-export class CardUI extends hzui.UIComponent<typeof CardUI> {
+export class CardUI extends UIComponent<typeof CardUI> {
+    preStart() {}
+
+    start() {}
+
     initializeUI() {
-        return hzui.View({
+        return View({
             children: [
-                hzui.View({
+                View({
                     children: [
                         //Title
-                        hzui.View({
+                        View({
                             children: [
-                                hzui.Text({
+                                Text({
                                     text: "Card Title",
                                     style: {
                                         fontSize: 20,
@@ -22,9 +26,9 @@ export class CardUI extends hzui.UIComponent<typeof CardUI> {
                             ]
                         }),
                         //Image
-                        hzui.View({
+                        View({
                             children: [
-                                hzui.Text({
+                                Text({
                                     text: "Image Placeholder",
                                     style: {
                                         fontSize: 16,
@@ -42,9 +46,9 @@ export class CardUI extends hzui.UIComponent<typeof CardUI> {
                             }
                         }),
                         //Body
-                        hzui.View({
+                        View({
                             children: [
-                                hzui.Text({
+                                Text({
                                     text: "This is a card component.\nIt can contain text, images, and other UI elements.",
                                     style: {
                                         fontSize: 16,
@@ -72,4 +76,4 @@ export class CardUI extends hzui.UIComponent<typeof CardUI> {
         });
     }
 }
-hzui.UIComponent.register(CardUI);
+UIComponent.register(CardUI);

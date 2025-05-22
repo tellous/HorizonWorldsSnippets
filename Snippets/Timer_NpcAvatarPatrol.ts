@@ -1,25 +1,25 @@
-import * as hz from 'horizon/core';
-import * as hznpc from 'horizon/avatar_ai_agent';
+import { Component, PropTypes, Vec3 } from 'horizon/core';
+import { AvatarAIAgent } from 'horizon/avatar_ai_agent';
 
-class NpcAvatarMove extends hz.Component<typeof NpcAvatarMove> {
+class NpcAvatarMove extends Component<typeof NpcAvatarMove> {
     static propsDefinition = {
-        destination: { type: hz.PropTypes.Entity }
+        destination: { type: PropTypes.Entity }
     };
 
-    agent?: hznpc.AvatarAIAgent;
+    agent?: AvatarAIAgent;
 
-    startPosition: hz.Vec3 = hz.Vec3.zero;
+    startPosition: Vec3 = Vec3.zero;
 
-    endPosition: hz.Vec3 = hz.Vec3.zero;
+    endPosition: Vec3 = Vec3.zero;
 
     shouldMoveTowardsEnd = true;
 
-    start() {
-        this.agent = this.entity.as(hznpc.AvatarAIAgent);
+    preStart() {
+        this.agent = this.entity.as(AvatarAIAgent);
 
-        this.startPosition = this.agent?.position.get() ?? hz.Vec3.zero;
+        this.startPosition = this.agent?.position.get() ?? Vec3.zero;
 
-        this.endPosition = this.props.destination?.position.get() ?? hz.Vec3.zero;
+        this.endPosition = this.props.destination?.position.get() ?? Vec3.zero;
 
         this.agent?.locomotion.moveToPosition(this.shouldMoveTowardsEnd
             ? this.endPosition
@@ -35,5 +35,9 @@ class NpcAvatarMove extends hz.Component<typeof NpcAvatarMove> {
             this.agent?.locomotion.moveToPosition(targetPosition);
         }, 3000);
     }
+
+    start() {
+        // Intentionally left blank
+    }
 }
-hz.Component.register(NpcAvatarMove);
+Component.register(NpcAvatarMove);

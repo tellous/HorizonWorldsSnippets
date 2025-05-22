@@ -1,11 +1,11 @@
-import * as hz from 'horizon/core';
+import { Component, AudioGizmo } from 'horizon/core';
 
-class PlayAndStopAudio extends hz.Component<typeof PlayAndStopAudio> {
-    private audio?: hz.AudioGizmo;
+class PlayAndStopAudio extends Component<typeof PlayAndStopAudio> {
+    private audio?: AudioGizmo;
 
-    start() {
+    preStart() {
         // Get the AudioGizmo component from the entity
-        this.audio = this.entity.as(hz.AudioGizmo);
+        this.audio = this.entity.as(AudioGizmo);
 
         // Play the sound when the component starts
         this.audio.play();
@@ -15,6 +15,10 @@ class PlayAndStopAudio extends hz.Component<typeof PlayAndStopAudio> {
             this.audio?.stop();
         }, 3000);
     }
+
+    start() {
+        // Intentionally left blank
+    }
 }
 
-hz.Component.register(PlayAndStopAudio);
+Component.register(PlayAndStopAudio);

@@ -1,24 +1,28 @@
-import * as hz from 'horizon/core';
+import { Component, PropTypes, CodeBlockEvents, ParticleGizmo, Player } from 'horizon/core';
 
-class PlayParticles extends hz.Component<typeof PlayParticles> {
+class PlayParticles extends Component<typeof PlayParticles> {
     static propsDefinition = {
-        particle: { type: hz.PropTypes.Entity }
+        particle: { type: PropTypes.Entity }
     };
 
-    particle?: hz.ParticleGizmo;
+    particle?: ParticleGizmo;
 
-    start() {
-        this.particle = this.props.particle?.as(hz.ParticleGizmo);
+    preStart() {
+        this.particle = this.props.particle?.as(ParticleGizmo);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.onPlayerEnterTrigger.bind(this),
         );
     }
 
-    onPlayerEnterTrigger(player: hz.Player) {
+    start() {
+        // Intentionally left blank
+    }
+
+    onPlayerEnterTrigger(player: Player) {
         this.particle?.play();
     }
 }
-hz.Component.register(PlayParticles);
+Component.register(PlayParticles);

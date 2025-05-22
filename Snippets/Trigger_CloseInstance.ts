@@ -1,10 +1,10 @@
-import * as hz from 'horizon/core';
+import { Component, CodeBlockEvents } from 'horizon/core';
 
-class CloseInstance extends hz.Component<typeof CloseInstance> {
-    start() {
+class CloseInstance extends Component<typeof CloseInstance> {
+    preStart() {
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnPlayerEnterTrigger,
+            CodeBlockEvents.OnPlayerEnterTrigger,
             this.OnPlayerEnterTrigger.bind(this)
         );
     }
@@ -13,6 +13,8 @@ class CloseInstance extends hz.Component<typeof CloseInstance> {
         // This will lock the instance and not allow any new players to join
         this.world.matchmaking.allowPlayerJoin(false);
     }
+
+    start() {}
 }
 
-hz.Component.register(CloseInstance);
+Component.register(CloseInstance);

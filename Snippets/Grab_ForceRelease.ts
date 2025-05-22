@@ -1,32 +1,34 @@
-import * as hz from 'horizon/core';
+import { Component, GrabbableEntity, CodeBlockEvents, Player } from 'horizon/core';
 
-class ForceRelease extends hz.Component<typeof ForceRelease> {
-    private grabbable?: hz.GrabbableEntity;
+class ForceRelease extends Component<typeof ForceRelease> {
+    private grabbable?: GrabbableEntity;
 
-    start() {
-        this.grabbable = this.entity.as(hz.GrabbableEntity);
+    preStart() {
+        this.grabbable = this.entity.as(GrabbableEntity);
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabStart,
+            CodeBlockEvents.OnGrabStart,
             this.onGrab.bind(this)
         );
 
         this.connectCodeBlockEvent(
             this.entity,
-            hz.CodeBlockEvents.OnGrabEnd,
+            CodeBlockEvents.OnGrabEnd,
             this.onRelease.bind(this)
         );
     }
 
-    private onGrab(isRightHand: boolean, player:hz.Player) {
+    start() {}
+
+    private onGrab(isRightHand: boolean, player: Player) {
         // This will force release the object from the player's hand
-        this.grabbable?.forceRelease()
+        this.grabbable?.forceRelease();
     }
 
-    private onRelease(player:hz.Player) {
+    private onRelease(player: Player) {
         console.log('Released');
     }
 }
 
-hz.Component.register(ForceRelease);
+Component.register(ForceRelease);
