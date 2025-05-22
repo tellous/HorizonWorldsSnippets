@@ -9,7 +9,7 @@ class EventSender extends hz.Component<typeof EventSender> {
     start() {
         this.async.setTimeout(() => {
             this.sendLocalBroadcastEvent(MyEvent, { message: "Hello from EventSender!" });
-        });
+        }, 1000);
     }
 }
 hz.Component.register(EventSender);
