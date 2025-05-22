@@ -7,11 +7,10 @@ const MyEvent = new LocalEvent<{ message: string }>();
 //Script to send a local broadcast event
 class EventSender extends Component<typeof EventSender> {
     preStart() {
-        this.async.setTimeout(() => {
-            this.sendLocalBroadcastEvent(MyEvent, { message: "Hello from EventSender!" });
-        }, 1000);
     }
-    start() {}
+    start() {
+        this.sendLocalBroadcastEvent(MyEvent, { message: "Hello from EventSender!" });
+    }
 }
 Component.register(EventSender);
 
@@ -20,7 +19,7 @@ class EventReceiver extends Component<typeof EventReceiver> {
     preStart() {
         this.connectLocalBroadcastEvent(MyEvent, this.handleEvent.bind(this));
     }
-    start() {}
+    start() { }
     private handleEvent(event: { message: string }) {
         console.log(`Received event with message: ${event.message}`);
     }
