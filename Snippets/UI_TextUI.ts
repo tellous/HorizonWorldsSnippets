@@ -1,6 +1,6 @@
 import { UIComponent, View, Text } from 'horizon/ui';
 
-export class TextUI extends UIComponent<typeof TextUI> {
+class TextUI extends UIComponent<typeof TextUI> {
     preStart() {}
     start() {}
 

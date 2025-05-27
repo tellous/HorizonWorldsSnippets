@@ -1,7 +1,7 @@
 import { UIComponent, Binding, View, UINode, Text } from 'horizon/ui';
 import { PropTypes, GrabbableEntity, CodeBlockEvents } from 'horizon/core';
 
-export class ConditionalUI extends UIComponent<typeof ConditionalUI> {
+class ConditionalUI extends UIComponent<typeof ConditionalUI> {
     static propsDefinition = {
         grabbable: { type: PropTypes.Entity }
     };

@@ -1,6 +1,6 @@
 import { UIComponent, View, Text } from 'horizon/ui';
 
-export class DisableUI extends UIComponent<typeof DisableUI> {
+class DisableUI extends UIComponent<typeof DisableUI> {
     initializeUI() {
         return View({
             children: [

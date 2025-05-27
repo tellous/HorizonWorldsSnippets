@@ -1,7 +1,7 @@
 import { UIComponent, View, Image, Text, ImageSource } from 'horizon/ui';
 import { TextureAsset } from 'horizon/core';
 
-export class BackgroundImageUI extends UIComponent<typeof BackgroundImageUI> {
+class BackgroundImageUI extends UIComponent<typeof BackgroundImageUI> {
     preStart() {}
 
     start() {}

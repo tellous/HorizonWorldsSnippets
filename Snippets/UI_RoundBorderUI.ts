@@ -1,7 +1,7 @@
 import { UIComponent, View } from 'horizon/ui';
 import { Color } from 'horizon/core';
 
-export class RoundBorderUI extends UIComponent<typeof RoundBorderUI> {
+class RoundBorderUI extends UIComponent<typeof RoundBorderUI> {
     preStart() {}
 
     start() {}

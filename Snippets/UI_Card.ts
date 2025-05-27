@@ -1,6 +1,6 @@
 import { UIComponent, View, Text } from 'horizon/ui';
 
-export class CardUI extends UIComponent<typeof CardUI> {
+class CardUI extends UIComponent<typeof CardUI> {
     preStart() {}
 
     start() {}

@@ -1,7 +1,6 @@
 import { UIComponent, View, ScrollView } from 'horizon/ui';
-import { Color } from 'horizon/core';
 
-export class ScrollViewUI extends UIComponent<typeof ScrollViewUI> {
+class ScrollViewUI extends UIComponent<typeof ScrollViewUI> {
     preStart() {}
 
     start() {}

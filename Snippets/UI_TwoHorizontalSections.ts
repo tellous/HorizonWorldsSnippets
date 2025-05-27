@@ -1,6 +1,6 @@
 import { UIComponent, View } from 'horizon/ui';
 
-export class BackgroundImageUI extends UIComponent<typeof BackgroundImageUI> {
+class BackgroundImageUI extends UIComponent<typeof BackgroundImageUI> {
     preStart() {}
     start() {}
     public initializeUI() {

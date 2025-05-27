@@ -1,7 +1,7 @@
 import { UIComponent, View } from 'horizon/ui';
 import { Color } from 'horizon/core';
 
-export class BorderUI extends UIComponent<typeof BorderUI> {
+class BorderUI extends UIComponent<typeof BorderUI> {
     preStart() {}
 
     start() {}

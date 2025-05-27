@@ -1,7 +1,7 @@
 import { UIComponent, View, DynamicList, Text, Binding } from 'horizon/ui';
 import { Color } from 'horizon/core';
 
-export class ListViewUI extends UIComponent<typeof ListViewUI> {
+class ListViewUI extends UIComponent<typeof ListViewUI> {
     private items = new Binding([
         { name: "Item 1" },
         { name: "Item 2" },

@@ -1,6 +1,6 @@
 import { UIComponent, Binding, View, Text } from 'horizon/ui';
 
-export class DerivedOutputUI extends UIComponent<typeof DerivedOutputUI> {
+class DerivedOutputUI extends UIComponent<typeof DerivedOutputUI> {
     private textBinding = new Binding("World");
 
     preStart() {

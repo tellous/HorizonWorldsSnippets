@@ -1,7 +1,7 @@
 import { UIComponent, View } from 'horizon/ui';
 import { Color } from 'horizon/core';
 
-export class ShadowUI extends UIComponent<typeof ShadowUI> {
+class ShadowUI extends UIComponent<typeof ShadowUI> {
     preStart() {}
 
     start() {}

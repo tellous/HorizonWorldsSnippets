@@ -1,7 +1,7 @@
 import { UIComponent, Pressable, Text, Binding } from 'horizon/ui';
 import { Color, Player } from 'horizon/core';
 
-export class ButtonUI extends UIComponent<typeof ButtonUI> {
+class ButtonUI extends UIComponent<typeof ButtonUI> {
     private hoverColor = Color.white;
 
     private pressedColor = new Color(0, 1, 1);

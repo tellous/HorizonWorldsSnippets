@@ -1,6 +1,6 @@
 import { UIComponent, AnimatedBinding, Animation, Easing, View } from 'horizon/ui';
 
-export class SlidingBoxAnimationUI extends UIComponent<typeof SlidingBoxAnimationUI> {
+class SlidingBoxAnimationUI extends UIComponent<typeof SlidingBoxAnimationUI> {
     private animatedValue = new AnimatedBinding(0);
 
     preStart() {

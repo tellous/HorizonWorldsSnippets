@@ -1,6 +1,6 @@
 import { UIComponent, Text, View } from "horizon/ui";
 
-export class TextFontsUI extends UIComponent<typeof TextFontsUI> {
+class TextFontsUI extends UIComponent<typeof TextFontsUI> {
     //Available fonts: 'Anton' | 'Bangers' | 'Kallisto' | 'Optimistic' | 'Oswald' | 'Roboto' | 'Roboto-Mono'
     initializeUI() {
         return View({

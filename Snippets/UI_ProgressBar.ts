@@ -1,6 +1,6 @@
 import { UIComponent, AnimatedBinding, Binding, Animation, Easing, View, Text } from 'horizon/ui';
 
-export class ProgressBar extends UIComponent<typeof ProgressBar> {
+class ProgressBar extends UIComponent<typeof ProgressBar> {
     static propsDefinition = {};
 
     private animationValueBinding = new AnimatedBinding(0);

@@ -1,7 +1,7 @@
 import { UIComponent, View, Text, Pressable, Binding, UINode } from 'horizon/ui';
 import { Color } from 'horizon/core';
 
-export class PagerUI extends UIComponent<typeof PagerUI> {
+class PagerUI extends UIComponent<typeof PagerUI> {
   private showView = new Binding(false);
 
   // Field variable for current page index

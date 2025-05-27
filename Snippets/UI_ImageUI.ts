@@ -1,7 +1,7 @@
 import { UIComponent, View, Image, ImageSource } from 'horizon/ui';
 import { TextureAsset } from 'horizon/core';
 
-export class ImageUI extends UIComponent<typeof ImageUI> {
+class ImageUI extends UIComponent<typeof ImageUI> {
     private textureId = 0;
 
     preStart() {}
