@@ -4,7 +4,6 @@ class DerivedOutputUI extends UIComponent<typeof DerivedOutputUI> {
     private textBinding = new Binding("World");
 
     preStart() {
-        this.textBinding.derive((text) => `Hello ${text}!`);
     }
 
     start() {}
@@ -13,7 +12,7 @@ class DerivedOutputUI extends UIComponent<typeof DerivedOutputUI> {
         return View({
             children: [
                 Text({
-                    text: this.textBinding,
+                    text: this.textBinding.derive((text) => `Hello ${text}!`),
                 })
             ],
             style: {
